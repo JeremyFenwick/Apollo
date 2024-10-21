@@ -120,4 +120,42 @@ public ref struct ATuple()
             W = a.W / magnitude,
         };
     }
+
+    /// <summary> 
+    /// Returns a scalar. The inner product of two tuples.
+    /// </summary>
+    public static double DotProduct(ATuple a, ATuple b)
+    {
+        return a.X * b.X + a.Y * b.Y + a.Z * b.Z + a.W * b.W;
+    }
+    
+    /// <summary> 
+    /// Returns a tuple. The cross product of two tuples.
+    /// </summary>
+    public static ATuple CrossProduct(ATuple a, ATuple b)
+    {
+        return new ATuple
+        {
+            X = (a.Y * b.Z) - (a.Z * b.Y),
+            Y = (a.Z * b.X) - (a.X * b.Z),
+            Z = (a.X * b.Y) - (a.Y * b.X),
+            W = 0.0,
+        };    
+    }
+
+    /// <summary> 
+    /// Compares two tuples for equality within 0.00001 precision.
+    /// </summary>
+    public static bool Equals(ATuple a, ATuple b)
+    {
+        if (System.Math.Abs(a.X - b.X) > 0.0001 || System.Math.Abs(a.Y - b.Y) > 0.0001 )
+        {
+            return false;
+        }
+        else if (System.Math.Abs(a.Z - b.Z) > 0.0001 || System.Math.Abs(a.W - b.W) > 0.0001)
+        {
+            return false;
+        }
+        return true;
+    }
 }

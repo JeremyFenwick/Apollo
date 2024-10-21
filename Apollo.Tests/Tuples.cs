@@ -198,4 +198,24 @@ public class Tests
         Assert.True(System.Math.Abs(nv2.Z - 0.80178) < 0.00001);
         Assert.True(System.Math.Abs(ATuple.Magnitude(nv2) - 1.0) < 0.00001);
     }
+
+    [Test]
+    public void DotProduct()
+    {
+        var v1 = MathFactory.Vector(1, 2, 3);
+        var v2 = MathFactory.Vector(2, 3, 4);
+        var dp = ATuple.DotProduct(v1, v2);
+        Assert.That(dp, Is.EqualTo(20));
+    }
+
+    [Test]
+    public void CrossProduct()
+    {
+        var v1 = MathFactory.Vector(1, 2, 3);
+        var v2 = MathFactory.Vector(2, 3, 4);
+        var c1 = ATuple.CrossProduct(v1, v2);
+        var c2 = ATuple.CrossProduct(v2, v1);
+        Assert.True(ATuple.Equals(c1, MathFactory.Vector(-1, 2, -1)));
+        Assert.True(ATuple.Equals(c2, MathFactory.Vector(1, -2, 1)));
+    }
 }
