@@ -1,4 +1,4 @@
-﻿namespace Apollo.Canvas;
+﻿namespace Apollo.Display;
 
 /// <summary> 
 /// A tuple for three colour systems -> Red, Blue, Green.

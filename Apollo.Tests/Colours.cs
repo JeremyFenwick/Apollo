@@ -1,4 +1,4 @@
-﻿using Apollo.Canvas;
+﻿using Apollo.Display;
 
 namespace Apollo.Tests;
 
@@ -34,9 +34,9 @@ public class Colours
             Green = 0.25f,
         };
         var c3 = c1.Add(c2);
-        Assert.That(c3.Red, Is.EqualTo(1.6f));
-        Assert.That(c3.Blue, Is.EqualTo(0.7f));
-        Assert.That(c3.Green, Is.EqualTo(1f));
+        Assert.True(System.Math.Abs(c3.Red - 1.6f) < 0.00001f);
+        Assert.True(System.Math.Abs(c3.Blue - 0.7f) < 0.00001f);
+        Assert.True(System.Math.Abs(c3.Green - 1f) < 0.00001f);
     }
 
     [Test]
@@ -55,9 +55,9 @@ public class Colours
             Green = 0.25f,
         };
         var c3 = c1.Subtract(c2);
-        Assert.True(System.Math.Abs(c3.Red - 0.2f) < 0.0001f);
-        Assert.True(System.Math.Abs(c3.Blue - 0.5f) < 0.0001f);
-        Assert.True(System.Math.Abs(c3.Green - 0.5f) < 0.0001f);
+        Assert.True(System.Math.Abs(c3.Red - 0.2f) < 0.00001f);
+        Assert.True(System.Math.Abs(c3.Blue - 0.5f) < 0.00001f);
+        Assert.True(System.Math.Abs(c3.Green - 0.5f) < 0.00001f);
     }
 
     [Test]
@@ -91,8 +91,8 @@ public class Colours
             Green = 0.1f,
         };
         var c3 = c1.HadamardProduct(c2);
-        Assert.True(System.Math.Abs(c3.Red - 0.9f) < 0.0001f);
-        Assert.True(System.Math.Abs(c3.Blue - 0.2f) < 0.0001f);
-        Assert.True(System.Math.Abs(c3.Green - 0.04f) < 0.0001f);
+        Assert.True(System.Math.Abs(c3.Red - 0.9f) < 0.00001f);
+        Assert.True(System.Math.Abs(c3.Blue - 0.2f) < 0.00001f);
+        Assert.True(System.Math.Abs(c3.Green - 0.04f) < 0.00001f);
     }
 }
