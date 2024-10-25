@@ -73,7 +73,7 @@ public class CanvasTests
     public void PpmExport5()
     {
         var canvas = new Canvas(3, 7);
-        canvas.SetBackground(DisplayFactory.CreateColour(1f, 0.8f, 0.6f));
+        canvas.SetBackground(new Colour(1f, 0.8f, 0.6f));
         var ppm = canvas.ExportAsPpm();
         Console.WriteLine(ppm);
     }
@@ -83,7 +83,7 @@ public class CanvasTests
     public void PpmExport6()
     {
         var canvas = new Canvas(3, 22);
-        canvas.SetBackground(DisplayFactory.CreateColour(1f, 0.8f, 0.6f));
+        canvas.SetBackground(new Colour(1f, 0.8f, 0.6f));
         var ppm = canvas.ExportAsPpm();
         Console.WriteLine(ppm);
     }
