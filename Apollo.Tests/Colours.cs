@@ -1,4 +1,4 @@
-﻿using Apollo.Display;
+﻿using Apollo.Display.Objects;
 
 namespace Apollo.Tests;
 

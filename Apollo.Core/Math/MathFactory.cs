@@ -1,4 +1,6 @@
-﻿namespace Apollo.Math;
+﻿using Apollo.Math.Objects;
+
+namespace Apollo.Math;
 
 public static class MathFactory
 {

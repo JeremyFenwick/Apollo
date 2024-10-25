@@ -1,9 +1,9 @@
-﻿namespace Apollo.Display;
+﻿namespace Apollo.Display.Objects;
 
 /// <summary> 
 /// A tuple for three colour systems -> Red, Blue, Green.
 /// </summary>
-public struct Colour
+public readonly struct Colour
 {
     public float Red { get; }
     public float Green { get;  }

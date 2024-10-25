@@ -1,11 +1,9 @@
-﻿using Apollo.Display;
-
-namespace Apollo.Math;
+﻿namespace Apollo.Math.Objects;
 
 /// <summary> 
 /// A tuple for three dimension co-ordinate systems. 
 /// </summary>
-public struct ATuple
+public readonly struct ATuple
 {
     public float X { get; }
     public float Y { get; }

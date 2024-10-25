@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Apollo.Display;
+namespace Apollo.Display.Objects;
 
 /// <summary> 
 /// Creates a canvas, which contains the pixels used for image generation and manipulation in a ROWS * COLUMNS grid.

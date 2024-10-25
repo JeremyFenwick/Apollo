@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Apollo.Math;
+using Apollo.Math.Objects;
 
 namespace Apollo.Tests.Cannon;
 

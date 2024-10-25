@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using Apollo.Display;
+using Apollo.Display.Objects;
 using Apollo.Math;
 using Apollo.Tests.Cannon;
 using NuGet.Frameworks;
