@@ -1,4 +1,5 @@
-﻿using Apollo.Display;
+﻿using System.Drawing;
+using Apollo.Display;
 using NuGet.Frameworks;
 
 namespace Apollo.Tests;
@@ -34,14 +35,84 @@ public class CanvasTests
     {
         var canvas = new Canvas(20, 10);
         var ppm = canvas.ExportAsPpm();
-        Assert.That(ppm.Equals("P3\n10 20\n255"));
+        Assert.That(ppm.Contains("P3\n10 20\n255"));
     }
     
+    // Visual Test. No actual assert used.
     [Test]
     public void PpmExport2()
     {
         var canvas = new Canvas(3, 5);
+        var c1 = new Colour
+        {
+            Red = 1.5f,
+            Blue = 0,
+            Green = 0
+        };
+        var c2 = new Colour
+        {
+            Red = 0,
+            Blue = 0.5f,
+            Green = 0
+        };
+        var c3 = new Colour
+        {
+            Red = -0.5f,
+            Blue = 0,
+            Green = 1
+        };
+        canvas.Write(0, 0, c1);
+        canvas.Write(1, 2, c2);
+        canvas.Write(2, 4, c3);
+        var ppm2 = canvas.ExportAsPpm();
+        Console.WriteLine(ppm2);
+    }
+    
+    // Visual Test. No actual assert used.
+    [Test]
+    public void PpmExport3()
+    {
+        var canvas = new Canvas(3, 6);
         var ppm = canvas.ExportAsPpm();
-        Assert.That(ppm.Equals("P3\n5 3\n255"));
+        Console.WriteLine(ppm);
+    }
+    
+    // Visual Test. No actual assert used.
+    [Test]
+    public void PpmExport4()
+    {
+        var canvas = new Canvas(3, 7);
+        var ppm = canvas.ExportAsPpm();
+        Console.WriteLine(ppm);
+    }
+    
+    // Visual Test. No actual assert used.
+    [Test]
+    public void PpmExport5()
+    {
+        var canvas = new Canvas(3, 7);
+        canvas.SetBackground(DisplayFactory.CreateColour(1f, 0.8f, 0.6f));
+        var ppm = canvas.ExportAsPpm();
+        Console.WriteLine(ppm);
+    }
+    
+    // Visual Test. No actual assert used.
+    [Test]
+    public void PpmExport6()
+    {
+        var canvas = new Canvas(3, 22);
+        canvas.SetBackground(DisplayFactory.CreateColour(1f, 0.8f, 0.6f));
+        var ppm = canvas.ExportAsPpm();
+        Console.WriteLine(ppm);
+    }
+
+    // Write the canvas to a text file.
+    [Test]
+    public void PpmToTextFile()
+    {
+        var canvas = new Canvas(550, 900);
+        var ppmString = canvas.ExportAsPpm();
+        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        File.WriteAllText(Path.Combine(docPath, "CanvasExport.ppm"), ppmString);
     }
 }

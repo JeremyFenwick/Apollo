@@ -1,4 +1,7 @@
 using Apollo.Math;
+using Apollo.Tests.Cannon;
+using Environment = Apollo.Tests.Cannon.Environment;
+
 namespace Apollo.Tests;
 
 public class Tests
@@ -208,5 +211,18 @@ public class Tests
         var c2 = v2.CrossProduct(v1);
         Assert.True(c1.Equals(MathFactory.Vector(-1, 2, -1)));
         Assert.True(c2.Equals(MathFactory.Vector(1, -2, 1)));
+    }
+    
+    // Visual Test. No actual assert used.
+    [Test]
+    public void FireCannon()
+    {
+        var p = new Projectile(MathFactory.Point(0, 1, 0), MathFactory.Vector(1, 1, 0).Normalize());
+        var v = new Environment(MathFactory.Vector(0, -0.1f, 0), MathFactory.Vector(-0.01f, 0, 0));
+        while (p.Position.Y > 0)
+        {
+            p = Cannon.CannonFire.Tick(p, v);
+            Console.WriteLine(System.Math.Round(p.Position.Y, 2));
+        }
     }
 }

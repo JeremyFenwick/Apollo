@@ -7,14 +7,14 @@ namespace Apollo.Display;
 /// </summary>
 public class Canvas
 {
-    private readonly Colour[,] _colours;
+    private readonly Colour[,] _grid;
     private readonly int _rows;
     private readonly int _columns;
     private const int Colours = 255;
 
     public Canvas(int rows, int columns)
     {
-        _colours = new Colour[rows,columns];
+        _grid = new Colour[rows,columns];
         _rows = rows;
         _columns = columns;
     }
@@ -24,7 +24,7 @@ public class Canvas
     /// </summary>
     public void Write(int row, int col, Colour colour)
     {
-        _colours[row, col] = colour;
+        _grid[row, col] = colour;
     }
     
     /// <summary> 
@@ -32,7 +32,21 @@ public class Canvas
     /// </summary>
     public Colour Read(int row, int col)
     {
-        return _colours[row, col];
+        return _grid[row, col];
+    }
+
+    /// <summary> 
+    /// Sets every colour in the grid to the colour provided.
+    /// </summary>
+    public void SetBackground(Colour colour)
+    {
+        for (int i = 0; i < _grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < _grid.GetLength(1); j++)
+            {
+                _grid[i, j] = colour;
+            }
+        }
     }
 
     /// <summary> 
@@ -50,12 +64,15 @@ public class Canvas
         {
             for (var col = 0; col < _columns; col++)
             {
-                var colour = _colours[row, col];
-                builder.Append(NormalizeFloat(colour.Red * 255));
-                builder.Append(NormalizeFloat(colour.Blue * 255));
-                builder.Append(NormalizeFloat(colour.Green * 255));
-                // Add a newline every 6th column
-                if (col % 5 == 0)
+                var colour = _grid[row, col];
+                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.Red) * 255));
+                builder.Append(' ');
+                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.Green) * 255));
+                builder.Append(' ');
+                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.Blue) * 255));
+                builder.Append(' ');
+                // Add a newline every 5th column, only if the number of columns is greater than 5
+                if ((col + 1) % 5 == 0 && _columns > 5)
                 {
                     builder.Append('\n');
                 }
@@ -65,8 +82,8 @@ public class Canvas
         }
         return builder.ToString();
     }
-
-    private float NormalizeFloat(float value)
+    
+    private static float NormalizeFloat(float value)
     {
         return value switch
         {
