@@ -7,7 +7,7 @@ public static class MathFactory
     /// </summary>
     public static ATuple Point(float x, float y, float z)
     {
-        return new ATuple() { X = x, Y = y, Z = z, W = 1.0f };
+        return new ATuple(x, y, z, 1.0f);
     }
     
     /// <summary> 
@@ -15,6 +15,6 @@ public static class MathFactory
     /// </summary>
     public static ATuple Vector(float x, float y, float z)
     {
-        return new ATuple() { X = x, Y = y, Z = z, W = 0.0f };
+        return new ATuple(x, y, z, 0.0f);
     }
 }

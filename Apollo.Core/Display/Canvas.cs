@@ -24,6 +24,10 @@ public class Canvas
     /// </summary>
     public void Write(int row, int col, Colour colour)
     {
+        if (row < 0 || row > _rows - 1 || col < 0 || col > _columns - 1)
+        {
+            return;
+        }
         _grid[row, col] = colour;
     }
     

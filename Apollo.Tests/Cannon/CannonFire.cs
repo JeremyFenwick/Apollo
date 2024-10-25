@@ -2,7 +2,7 @@
 
 public static class CannonFire
 {
-    public static Projectile Tick(Projectile proj, Environment env)
+    public static Projectile Tick(Projectile proj, FEnvironment env)
     {
         var position = proj.Position.Add(proj.Velocity);
         var velocity = proj.Velocity.Add(env.Gravity).Add(env.Wind);

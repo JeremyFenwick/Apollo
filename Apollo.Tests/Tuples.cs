@@ -1,6 +1,5 @@
 using Apollo.Math;
 using Apollo.Tests.Cannon;
-using Environment = Apollo.Tests.Cannon.Environment;
 
 namespace Apollo.Tests;
 
@@ -9,13 +8,7 @@ public class Tests
     [Test]
     public void Point()
     {
-        var point = new ATuple
-        {
-            X = 4.3f,
-            Y = -4.2f,
-            Z = 3.1f,
-            W = 1.0f
-        };
+        var point = new ATuple(4.3f, -4.2f, 3.1f, 1.0f);
         Assert.That(point.X, Is.EqualTo(4.3f));
         Assert.That(point.Y, Is.EqualTo(-4.2f));
         Assert.That(point.Z, Is.EqualTo(3.1f));
@@ -26,13 +19,7 @@ public class Tests
     [Test]
     public void Vector()
     {
-        var vector = new ATuple
-        {
-            X = 4.3f,
-            Y = -4.2f,
-            Z = 3.1f,
-            W = 0.0f
-        };
+        var vector = new ATuple(4.3f, -4.2f, 3.1f, 0.0f);
         Assert.That(vector.X, Is.EqualTo(4.3f));
         Assert.That(vector.Y, Is.EqualTo(-4.2f));
         Assert.That(vector.Z, Is.EqualTo(3.1f));
@@ -113,13 +100,7 @@ public class Tests
     [Test]
     public void Negate()
     {
-        var tuple = new ATuple
-        {
-            X = 1f,
-            Y = -2f,
-            Z = 3f,
-            W = 0f
-        };
+        var tuple = new ATuple(1f, -2f, 3f, 0f);
         var nTuple = tuple.Negate();
         Assert.That(nTuple.X, Is.EqualTo(-1f));
         Assert.That(nTuple.Y, Is.EqualTo(2f));
@@ -130,13 +111,7 @@ public class Tests
     [Test]
     public void Multiply()
     {
-        var tuple = new ATuple
-        {
-            X = 1f,
-            Y = -2f,
-            Z = 3f,
-            W = -4f
-        };
+        var tuple = new ATuple(1f, -2f, 3f, -4f);
         var mTuple = tuple.Multiply(3.5f);
         Assert.That(mTuple.X, Is.EqualTo(3.5f));
         Assert.That(mTuple.Y, Is.EqualTo(-7f));
@@ -147,13 +122,7 @@ public class Tests
     [Test]
     public void Divide()
     {
-        var tuple = new ATuple
-        {
-            X = 1f,
-            Y = -2f,
-            Z = 3f,
-            W = -4f
-        };
+        var tuple = new ATuple(1f, -2f, 3f, -4f);
         var mTuple = tuple.Divide(2f);
         Assert.That(mTuple.X, Is.EqualTo(0.5f));
         Assert.That(mTuple.Y, Is.EqualTo(-1f));
@@ -218,7 +187,7 @@ public class Tests
     public void FireCannon()
     {
         var p = new Projectile(MathFactory.Point(0, 1, 0), MathFactory.Vector(1, 1, 0).Normalize());
-        var v = new Environment(MathFactory.Vector(0, -0.1f, 0), MathFactory.Vector(-0.01f, 0, 0));
+        var v = new FEnvironment(MathFactory.Vector(0, -0.1f, 0), MathFactory.Vector(-0.01f, 0, 0));
         while (p.Position.Y > 0)
         {
             p = Cannon.CannonFire.Tick(p, v);

@@ -1,14 +1,24 @@
-﻿namespace Apollo.Math;
+﻿using Apollo.Display;
+
+namespace Apollo.Math;
 
 /// <summary> 
 /// A tuple for three dimension co-ordinate systems. 
 /// </summary>
-public struct ATuple()
+public struct ATuple
 {
-    public required float X { get; init; }
-    public required float Y { get; init; }
-    public required float Z { get; init; }
-    public required float W { get; init; }
+    public float X { get; }
+    public float Y { get; }
+    public float Z { get; }
+    public float W { get; }
+
+    public ATuple(float x, float y, float z, float w)
+    {
+        X = x;
+        Y = y;
+        Z = z;
+        W = w;
+    }
     
     /// <summary> 
     /// Returns true is a tuple is a point (a.W ~ 1.0)
@@ -30,13 +40,7 @@ public struct ATuple()
     /// </summary>
     public ATuple Add(ATuple b)
     {
-        return new ATuple
-        {
-            X = X + b.X,
-            Y = Y + b.Y,
-            Z = Z + b.Z,
-            W = W + b.W
-        };
+        return new ATuple(X + b.X, Y + b.Y, Z + b.Z, W + b.W);
     }
     
     /// <summary> 
@@ -44,13 +48,7 @@ public struct ATuple()
     /// </summary>
     public ATuple Subtract(ATuple b)
     {
-        return new ATuple
-        {
-            X = X - b.X,
-            Y = Y - b.Y,
-            Z = Z - b.Z,
-            W = W - b.W
-        };
+        return new ATuple(X - b.X, Y - b.Y, Z - b.Z, W - b.W);
     }
     
     /// <summary> 
@@ -58,13 +56,7 @@ public struct ATuple()
     /// </summary>
     public ATuple Negate()
     {
-        return new ATuple
-        {
-            X = -X,
-            Y = -Y,
-            Z = -Z,
-            W = -W,
-        };
+        return new ATuple(-X, -Y, -Z, -W);
     }
 
     /// <summary> 
@@ -72,13 +64,7 @@ public struct ATuple()
     /// </summary>
     public ATuple Multiply(float scalar)
     {
-        return new ATuple
-        {
-            X = X * scalar,
-            Y = Y * scalar,
-            Z = Z * scalar,
-            W = W * scalar,
-        };
+        return new ATuple(X * scalar, Y * scalar, Z * scalar, W * scalar);
     }
     
     /// <summary> 
@@ -86,13 +72,7 @@ public struct ATuple()
     /// </summary>
     public ATuple Divide(float scalar)
     {
-        return new ATuple
-        {
-            X = X / scalar,
-            Y = Y / scalar,
-            Z = Z / scalar,
-            W = W / scalar,
-        };
+        return new ATuple(X / scalar, Y / scalar, Z / scalar, W / scalar);
     }
 
     /// <summary> 
@@ -110,13 +90,7 @@ public struct ATuple()
     public ATuple Normalize()
     {
         var magnitude = Magnitude();
-        return new ATuple
-        {
-            X = X / magnitude,
-            Y = Y / magnitude,
-            Z = Z / magnitude,
-            W = W / magnitude,
-        };
+        return new ATuple(X / magnitude, Y /magnitude, Z / magnitude, W / magnitude);
     }
 
     /// <summary> 
@@ -132,13 +106,7 @@ public struct ATuple()
     /// </summary>
     public ATuple CrossProduct(ATuple b)
     {
-        return new ATuple
-        {
-            X = (Y * b.Z) - (Z * b.Y),
-            Y = (Z * b.X) - (X * b.Z),
-            Z = (X * b.Y) - (Y * b.X),
-            W = 0.0f,
-        };    
+        return new ATuple((Y * b.Z) - (Z * b.Y), (Z * b.X) - (X * b.Z), (X * b.Y) - (Y * b.X), 0.0f);
     }
 
     /// <summary> 
