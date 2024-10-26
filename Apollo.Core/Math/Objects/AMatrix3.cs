@@ -77,4 +77,50 @@ public readonly struct AMatrix3
         }
         return new AMatrix2(result);
     }
+
+    /// <summary> 
+    /// Returns minor of this matrix. The minor is the determinant of a smaller sub matrix given a row and column to remove.
+    /// https://en.wikipedia.org/wiki/Minor_(linear_algebra)
+    /// </summary>
+    public float Minor(int row, int col)
+    {
+        return this.SubMatrix(row, col).Determinant();
+    }
+    
+    /// <summary> 
+    /// Returns the cofactor (signed minor) of this matrix given a row and column to remove.
+    /// https://en.wikipedia.org/wiki/Minor_(linear_algebra)
+    /// </summary>
+    public float Cofactor(int row, int col)
+    {
+        var result = this.SubMatrix(row, col).Determinant();
+        // If row + col is odd, we reverse the sign of the minor.
+        if ((row + col) % 2 != 0)
+        {
+            return -result;
+        }
+        else
+        {
+            return result;
+        }
+    }
+    
+    /// <summary> 
+    /// Returns the determinant of this matrix.
+    /// https://en.wikipedia.org/wiki/Determinant
+    /// </summary>
+    public float Determinant()
+    {
+        return (this.Cofactor(0, 0) * _matrix[0, 0]) + 
+               (this.Cofactor(0, 1) * _matrix[0, 1]) + 
+               (this.Cofactor(0, 2) * _matrix[0, 2]);  
+    }
+    
+    /// <summary> 
+    /// Returns whether the matrix is invertible (whether the determinant is zero).
+    /// </summary>
+    public bool Invertable()
+    {
+        return Determinant() != 0;
+    }
 }

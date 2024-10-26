@@ -55,4 +55,12 @@ public readonly struct AMatrix2
     {
         return (_matrix[0, 0] * _matrix[1, 1]) - (_matrix[0, 1] * _matrix[1, 0]);
     }
+    
+    /// <summary> 
+    /// Returns whether the matrix is invertible (whether the determinant is zero).
+    /// </summary>
+    public bool Invertable()
+    {
+        return Determinant() != 0;
+    }
 }

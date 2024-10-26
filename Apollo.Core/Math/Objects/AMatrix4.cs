@@ -154,4 +154,51 @@ public readonly struct AMatrix4
 
         return new AMatrix3(result);
     }
+    
+    /// <summary> 
+    /// Returns the determinant of this matrix.
+    /// https://en.wikipedia.org/wiki/Determinant
+    /// </summary>
+    public float Determinant()
+    {
+        return (this.SubMatrix(0, 0).Determinant() * _matrix[0, 0]) +
+               (-this.SubMatrix(0, 1).Determinant() * _matrix[0, 1]) +
+               (this.SubMatrix(0, 2).Determinant() * _matrix[0, 2]) +
+               (-this.SubMatrix(0, 3).Determinant() * _matrix[0, 3]);
+    }
+
+    /// <summary> 
+    /// Returns whether the matrix is invertible (whether the determinant is zero).
+    /// </summary>
+    public bool Invertable()
+    {
+        return Determinant() != 0;
+    }
+
+    public AMatrix4 Inverse()
+    {
+        var det = Determinant();
+        if (det == 0)
+        {
+            throw new Exception("Attempting to invert a non-invertible Matrix!");
+        }
+        var result = new float[4, 4];
+        for (int row = 0; row < 4; row++)
+        {
+            for (int col = 0; col < 4; col++)
+            {
+                // We need to apply the appropriate sign to the determinant
+                var minor = this.SubMatrix(row, col).Determinant();
+                if ((row + col) % 2 != 0)
+                {
+                    result[col, row] = -minor / det;
+                }
+                else
+                {
+                    result[col, row] = minor / det;
+                }
+            }
+        }
+        return new AMatrix4(result);
+    }
 }
