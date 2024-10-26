@@ -125,4 +125,33 @@ public readonly struct AMatrix4
         }
         return new AMatrix4(result);
     }
+
+
+    /// <summary> 
+    /// Returns the sub matrix with the specified row and column removed.
+    /// https://en.wikipedia.org/wiki/Matrix_(mathematics)
+    /// </summary>
+    public AMatrix3 SubMatrix(int removeRow, int removeCol)
+    {
+        var result = new float[3, 3];
+        var rowAdded = 0;
+        var colAdded = 0;
+        for (int row = 0; row < 4; row++)
+        {
+            // Skip the removeRow
+            if (row == removeRow) continue;
+            for (int col = 0; col < 4; col++)
+            {
+                // Skip the removeCol
+                if (col == removeCol) continue;
+                result[rowAdded, colAdded] = _matrix[row, col];
+                colAdded++;
+            }
+
+            colAdded = 0;
+            rowAdded++;
+        }
+
+        return new AMatrix3(result);
+    }
 }

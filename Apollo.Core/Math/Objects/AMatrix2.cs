@@ -15,6 +15,11 @@ public readonly struct AMatrix2
         _matrix[1, 0] = m21;
         _matrix[1, 1] = m22;
     }
+
+    public AMatrix2(float[,] matrix)
+    {
+        _matrix = matrix;
+    }
     
     /// <summary> 
     /// Get the value within the matrix at ROW, COLUMN.
@@ -40,5 +45,14 @@ public readonly struct AMatrix2
             }
         }
         return true;
+    }
+
+    /// <summary> 
+    /// Returns the determinant of this matrix.
+    /// https://en.wikipedia.org/wiki/Determinant
+    /// </summary>
+    public float Determinant()
+    {
+        return (_matrix[0, 0] * _matrix[1, 1]) - (_matrix[0, 1] * _matrix[1, 0]);
     }
 }

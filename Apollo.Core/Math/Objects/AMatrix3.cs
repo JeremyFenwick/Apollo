@@ -20,6 +20,11 @@ public readonly struct AMatrix3
         _matrix[2, 1] = m32;
         _matrix[2, 2] = m33;
     }
+
+    public AMatrix3(float[,] matrix)
+    {
+        _matrix = matrix;
+    }
     
     /// <summary> 
     /// Get the value within the matrix at ROW, COLUMN.
@@ -45,5 +50,31 @@ public readonly struct AMatrix3
             }
         }
         return true;
+    }
+    
+    /// <summary> 
+    /// Returns the sub matrix with the specified row and column removed.
+    /// https://en.wikipedia.org/wiki/Matrix_(mathematics)
+    /// </summary>
+    public AMatrix2 SubMatrix(int removeRow, int removeCol)
+    {
+        var result = new float[2, 2];
+        var rowAdded = 0;
+        var colAdded = 0;
+        for (int row = 0; row < 3; row++)
+        {
+            // Skip the removeRow
+            if (row == removeRow) continue;
+            for (int col = 0; col < 3; col++)
+            {
+                // Skip the removeCol
+                if (col == removeCol) continue;
+                result[rowAdded, colAdded] = _matrix[row, col];
+                colAdded++;
+            }
+            colAdded = 0;
+            rowAdded++;
+        }
+        return new AMatrix2(result);
     }
 }

@@ -85,4 +85,37 @@ public class Matrices
         var iMatrix = AMatrix4.IdentityMatrix4();
         Assert.That(matrix.Multiply(iMatrix).Equals(matrix));
     }
+
+    [Test]
+    public void TransposeMatrix()
+    {
+        var matrix = new AMatrix4(0, 9, 3, 0, 9, 8, 0, 8, 1, 8, 5, 3, 0, 0, 5, 8);
+        var tMatrix = new AMatrix4(0, 9, 1, 0, 9, 8, 8, 0, 3, 0, 5, 5, 0, 8, 3, 8);
+        Assert.That(matrix.Transpose().Equals(tMatrix));
+    }
+
+    [Test]
+    public void Determinant()
+    {
+        var matrix = new AMatrix2(1, 5, -3, 2);
+        Assert.That(matrix.Determinant(), Is.EqualTo(17));
+    }
+
+    [Test]
+    public void SubMatrix()
+    {
+        var matrix = new AMatrix3(1, 5, 0, -3, 2, 7, 0, 6, -3);
+        var subMatrix = matrix.SubMatrix(0, 2);
+        var expectedSubMatrix = new AMatrix2(-3, 2, 0, 6);
+        Assert.That(subMatrix.Equals(expectedSubMatrix));
+    }
+
+    [Test]
+    public void SubMatrix2()
+    {
+        var matrix = new AMatrix4(-6, 1, 1, 6, -8, 5, 8, 6, -1, 0, 8, 2, -7, 1, -1, 1);
+        var subMatrix = matrix.SubMatrix(2, 1);
+        var expectedSubMatrix = new AMatrix3(-6, 1, 6, -8, 8, 6, -7, -1, 1);
+        Assert.That(subMatrix.Equals(expectedSubMatrix));
+    }
 }
