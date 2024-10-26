@@ -1,11 +1,9 @@
-﻿using Apollo.Math.Interfaces;
-
-namespace Apollo.Math.Objects;
+﻿namespace Apollo.Math.Objects;
 
 /// <summary> 
 /// A 2x2 matrix of floating point numbers.
 /// </summary>
-public readonly struct AMatrix2 : Matrix
+public readonly struct AMatrix2
 {
     private readonly float[,] _matrix;
 
@@ -24,5 +22,23 @@ public readonly struct AMatrix2 : Matrix
     public float Get(int row, int col)
     {
         return _matrix[row, col];
+    }
+    
+    /// <summary> 
+    /// Compares two matrices for equality by the contained values.
+    /// </summary>
+    public bool Equals(AMatrix2 other)
+    {
+        for (int i = 0; i < _matrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < _matrix.GetLength(1); j++)
+            {
+                if (System.Math.Abs(_matrix[i, j] - other.Get(i, j)) > 0.00001)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
