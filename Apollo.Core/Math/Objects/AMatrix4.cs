@@ -243,7 +243,7 @@ public readonly struct AMatrix4
     /// Returns a rotation matrix that will rotate the X axis.
     /// https://en.wikipedia.org/wiki/Rotation_matrix
     /// </summary>
-    public static AMatrix4 RotationXMatrix4(double degrees)
+    public static AMatrix4 XRotationMatrix4(double degrees)
     {
         var result = new float[4, 4];
         result[0, 0] = 1;
@@ -259,7 +259,7 @@ public readonly struct AMatrix4
     /// Returns a rotation matrix that will rotate the Y axis.
     /// https://en.wikipedia.org/wiki/Rotation_matrix
     /// </summary>
-    public static AMatrix4 RotationYMatrix4(double degrees)
+    public static AMatrix4 YRotationMatrix4(double degrees)
     {
         var result = new float[4, 4];
         result[1, 1] = 1;
@@ -275,7 +275,7 @@ public readonly struct AMatrix4
     /// Returns a rotation matrix that will rotate the Z axis.
     /// https://en.wikipedia.org/wiki/Rotation_matrix
     /// </summary>
-    public static AMatrix4 RotationZMatrix4(double degrees)
+    public static AMatrix4 ZRotationMatrix4(double degrees)
     {
         var result = new float[4, 4];
         result[1, 1] = 1;
@@ -331,7 +331,7 @@ public readonly struct AMatrix4
     /// </summary>
     public AMatrix4 XRotate(double radians)
     {
-        var tempMatrix = RotationXMatrix4(radians);
+        var tempMatrix = XRotationMatrix4(radians);
         return this.Multiply(tempMatrix);
     }
     
@@ -340,7 +340,7 @@ public readonly struct AMatrix4
     /// </summary>
     public AMatrix4 YRotate(double radians)
     {
-        var tempMatrix = RotationYMatrix4(radians);
+        var tempMatrix = YRotationMatrix4(radians);
         return this.Multiply(tempMatrix);
     }
     
@@ -349,7 +349,7 @@ public readonly struct AMatrix4
     /// </summary>
     public AMatrix4 ZRotate(double radians)
     {
-        var tempMatrix = RotationZMatrix4(radians);
+        var tempMatrix = ZRotationMatrix4(radians);
         return this.Multiply(tempMatrix);
     }
 

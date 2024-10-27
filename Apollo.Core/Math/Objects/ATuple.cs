@@ -146,7 +146,7 @@ public readonly struct ATuple
     /// </summary>
     public ATuple XRotate(double radians)
     {
-        var tempMatrix = AMatrix4.RotationXMatrix4(radians);
+        var tempMatrix = AMatrix4.XRotationMatrix4(radians);
         return tempMatrix.Multiply(this);
     }
     
@@ -155,7 +155,7 @@ public readonly struct ATuple
     /// </summary>
     public ATuple YRotate(double radians)
     {
-        var tempMatrix = AMatrix4.RotationYMatrix4(radians);
+        var tempMatrix = AMatrix4.YRotationMatrix4(radians);
         return tempMatrix.Multiply(this);
     }
     
@@ -164,7 +164,7 @@ public readonly struct ATuple
     /// </summary>
     public ATuple ZRotate(double radians)
     {
-        var tempMatrix = AMatrix4.RotationZMatrix4(radians);
+        var tempMatrix = AMatrix4.ZRotationMatrix4(radians);
         return tempMatrix.Multiply(this);
     }
 

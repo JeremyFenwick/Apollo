@@ -1,4 +1,5 @@
-﻿using Apollo.Math;
+﻿using Apollo.Display.Objects;
+using Apollo.Math;
 using Apollo.Math.Objects;
 
 namespace Apollo.Tests;
@@ -8,8 +9,8 @@ public class Rotations
     [Test]
     public void XRotation()
     {
-        var halfQuarter = AMatrix4.RotationXMatrix4(System.Math.PI / 4);
-        var fullQuarter = AMatrix4.RotationXMatrix4(System.Math.PI / 2);
+        var halfQuarter = AMatrix4.XRotationMatrix4(System.Math.PI / 4);
+        var fullQuarter = AMatrix4.XRotationMatrix4(System.Math.PI / 2);
         var point = MathFactory.Point(0, 1, 0);
         var halfPoint = halfQuarter.Multiply(point);
         var fullPoint = fullQuarter.Multiply(point);
@@ -21,8 +22,8 @@ public class Rotations
     [Test]
     public void YRotation()
     {
-        var halfQuarter = AMatrix4.RotationYMatrix4(System.Math.PI / 4);
-        var fullQuarter = AMatrix4.RotationYMatrix4(System.Math.PI / 2);
+        var halfQuarter = AMatrix4.YRotationMatrix4(System.Math.PI / 4);
+        var fullQuarter = AMatrix4.YRotationMatrix4(System.Math.PI / 2);
         var point = MathFactory.Point(0, 0, 1);
         var halfPoint = halfQuarter.Multiply(point);
         var fullPoint = fullQuarter.Multiply(point);
@@ -34,8 +35,8 @@ public class Rotations
     [Test]
     public void ZRotation()
     {
-        var halfQuarter = AMatrix4.RotationZMatrix4(System.Math.PI / 4);
-        var fullQuarter = AMatrix4.RotationZMatrix4(System.Math.PI / 2);
+        var halfQuarter = AMatrix4.ZRotationMatrix4(System.Math.PI / 4);
+        var fullQuarter = AMatrix4.ZRotationMatrix4(System.Math.PI / 2);
         var point = MathFactory.Point(0, 1, 0);
         var halfPoint = halfQuarter.Multiply(point);
         var fullPoint = fullQuarter.Multiply(point);
@@ -97,5 +98,23 @@ public class Rotations
     {
         var point = MathFactory.Point(1, 0, 1).XRotate(System.Math.PI / 2).Scale(5, 5, 5).Translate(10, 5, 7);
         Assert.That(MathFactory.Point(15, 0, 7).Equals(point));
+    }
+    
+    // This test exports an image file
+    [Test]
+    public void GenerateClockFace()
+    {
+        var canvas = new Canvas(500, 500);
+        var point = MathFactory.Point(0, 0, 1);
+        var clockColour = new Colour(255, 165, 0);
+        for (int i = 0; i < 12; i++)
+        {
+            point = point.YRotate(System.Math.PI / 6);
+            var scaledX = (int) System.Math.Round((point.X * 200) + 250, 0);
+            var scaledY = (int) System.Math.Round((point.Z * 200) + 250, 0);
+            canvas.Write(scaledY, scaledX, clockColour);
+        }
+        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        File.WriteAllText(Path.Combine(docPath, "Clock.ppm"), canvas.ExportAsPpm());
     }
 }
