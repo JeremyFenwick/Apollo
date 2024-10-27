@@ -1,10 +1,8 @@
-﻿using System.Drawing;
-using Apollo.Display.Objects;
+﻿using Apollo.Display.Objects;
 using Apollo.Math;
 using Apollo.Tests.Cannon;
-using NuGet.Frameworks;
 
-namespace Apollo.Tests;
+namespace Apollo.Tests.D;
 
 public class CanvasTests
 {

@@ -1,8 +1,6 @@
-﻿using System.Numerics;
-using Apollo.Math;
-using Apollo.Math.Objects;
+﻿using Apollo.Math.Objects;
 
-namespace Apollo.Tests;
+namespace Apollo.Tests.Math;
 
 public class Matrices
 {

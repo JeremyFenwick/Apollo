@@ -1,6 +1,6 @@
 ﻿using Apollo.Display.Objects;
 
-namespace Apollo.Tests;
+namespace Apollo.Tests.D;
 
 public class Colours
 {

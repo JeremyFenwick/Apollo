@@ -2,7 +2,7 @@
 using Apollo.Math;
 using Apollo.Math.Objects;
 
-namespace Apollo.Tests;
+namespace Apollo.Tests.Math;
 
 public class Rotations
 {
