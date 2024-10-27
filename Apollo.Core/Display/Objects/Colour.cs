@@ -48,5 +48,4 @@ public readonly struct Colour
         return new Colour(Red * c2.Red, Green * c2.Green, Blue * c2.Blue);
 
     }
-
 }

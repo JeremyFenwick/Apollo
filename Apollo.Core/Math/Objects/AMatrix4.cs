@@ -175,6 +175,10 @@ public readonly struct AMatrix4
         return Determinant() != 0;
     }
 
+    /// <summary> 
+    /// Returns the inverse of this matrix.
+    /// https://en.wikipedia.org/wiki/Multiplicative_inverse
+    /// </summary>
     public AMatrix4 Inverse()
     {
         var det = Determinant();
@@ -200,5 +204,161 @@ public readonly struct AMatrix4
             }
         }
         return new AMatrix4(result);
+    }
+
+    /// <summary> 
+    /// Returns a translation matrix given the floating point numbers x, y and z.
+    /// A translation matrix moves a point but does not affect vectors.
+    /// https://en.wikipedia.org/wiki/Translation_(geometry)
+    /// </summary>
+    public static AMatrix4 TranslationMatrix4(float x, float y, float z)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = 1;
+        result[0, 3] = x;
+        result[1, 1] = 1;
+        result[1, 3] = y;
+        result[2, 2] = 1;
+        result[2, 3] = z;
+        result[3, 3] = 1;
+        return new AMatrix4(result);
+    }
+    
+    /// <summary> 
+    /// Returns a scaling matrix given the floating point numbers x, y and z.
+    /// Scales X by x, Y by y and Z by z.
+    /// https://en.wikipedia.org/wiki/Scaling_(geometry)
+    /// </summary>
+    public static AMatrix4 ScalingMatrix4(float x, float y, float z)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = x;
+        result[1, 1] = y;
+        result[2, 2] = z;
+        result[3, 3] = 1;
+        return new AMatrix4(result);
+    }
+
+    /// <summary> 
+    /// Returns a rotation matrix that will rotate the X axis.
+    /// https://en.wikipedia.org/wiki/Rotation_matrix
+    /// </summary>
+    public static AMatrix4 RotationXMatrix4(double degrees)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = 1;
+        result[3, 3] = 1;
+        result[1, 1] = (float) System.Math.Cos(degrees);
+        result[1, 2] = (float) -System.Math.Sin(degrees);
+        result[2, 1] = (float) System.Math.Sin(degrees);
+        result[2, 2] = (float) System.Math.Cos(degrees);
+        return new AMatrix4(result);
+    }
+    
+    /// <summary> 
+    /// Returns a rotation matrix that will rotate the Y axis.
+    /// https://en.wikipedia.org/wiki/Rotation_matrix
+    /// </summary>
+    public static AMatrix4 RotationYMatrix4(double degrees)
+    {
+        var result = new float[4, 4];
+        result[1, 1] = 1;
+        result[3, 3] = 1;
+        result[0, 0] = (float) System.Math.Cos(degrees);
+        result[0, 2] = (float) System.Math.Sin(degrees);
+        result[2, 0] = (float) -System.Math.Sin(degrees);
+        result[2, 2] = (float) System.Math.Cos(degrees);
+        return new AMatrix4(result);
+    }
+    
+    /// <summary> 
+    /// Returns a rotation matrix that will rotate the Z axis.
+    /// https://en.wikipedia.org/wiki/Rotation_matrix
+    /// </summary>
+    public static AMatrix4 RotationZMatrix4(double degrees)
+    {
+        var result = new float[4, 4];
+        result[1, 1] = 1;
+        result[3, 3] = 1;
+        result[0, 0] = (float) System.Math.Cos(degrees);
+        result[0, 1] = (float) -System.Math.Sin(degrees);
+        result[1, 0] = (float) System.Math.Sin(degrees);
+        result[1, 1] = (float) System.Math.Cos(degrees);
+        return new AMatrix4(result);
+    }
+    
+    /// <summary> 
+    /// Returns a matrix that will shear (skew).
+    /// https://en.wikipedia.org/wiki/Transformation_matrix
+    /// </summary>
+    /// <remarks>The input xy refers to x being moved in proportion to y.</remarks>
+    public static AMatrix4 ShearMatrix4(float xy, float xz, float yx, float yz, float zx, float zy)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = 1;
+        result[0, 1] = xy;
+        result[0, 2] = xz;
+        result[1, 0] = yx;
+        result[1, 1] = 1;
+        result[1, 2] = yz;
+        result[2, 0] = zx;
+        result[2, 1] = zy;
+        result[2, 2] = 1;
+        result[3, 3] = 1;
+        return new AMatrix4(result);
+    }
+
+    /// <summary> 
+    /// Translates this matrix.
+    /// </summary>
+    public AMatrix4 Translate(float x, float y, float z)
+    {
+        var tempMatrix = TranslationMatrix4(x, y, z);
+        return this.Multiply(tempMatrix);
+    }
+
+    /// <summary> 
+    /// Scales this matrix.
+    /// </summary>
+    public AMatrix4 Scale(float x, float y, float z)
+    {
+        var tempMatrix = ScalingMatrix4(x, y, z);
+        return this.Multiply(tempMatrix);
+    }
+    
+    /// <summary> 
+    /// Rotates this matrix across the X axis.
+    /// </summary>
+    public AMatrix4 XRotate(double radians)
+    {
+        var tempMatrix = RotationXMatrix4(radians);
+        return this.Multiply(tempMatrix);
+    }
+    
+    /// <summary> 
+    /// Rotates this matrix across the Y axis.
+    /// </summary>
+    public AMatrix4 YRotate(double radians)
+    {
+        var tempMatrix = RotationYMatrix4(radians);
+        return this.Multiply(tempMatrix);
+    }
+    
+    /// <summary> 
+    /// Rotates this matrix across the Z axis.
+    /// </summary>
+    public AMatrix4 ZRotate(double radians)
+    {
+        var tempMatrix = RotationZMatrix4(radians);
+        return this.Multiply(tempMatrix);
+    }
+
+    /// <summary> 
+    /// Shears this matrix.
+    /// </summary>
+    public AMatrix4 Shear(float xy, float xz, float yx, float yz, float zx, float zy)
+    {
+        var tempMatrix = ShearMatrix4(xy, xz, yx, yz, zx, yz);
+        return this.Multiply(tempMatrix);
     }
 }

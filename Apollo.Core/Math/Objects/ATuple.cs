@@ -122,4 +122,58 @@ public readonly struct ATuple
         }
         return true;
     }
+    
+    /// <summary> 
+    /// Translates this tuple.
+    /// </summary>
+    public ATuple Translate(float x, float y, float z)
+    {
+        var tempMatrix = AMatrix4.TranslationMatrix4(x, y, z);
+        return tempMatrix.Multiply(this);
+    }
+
+    /// <summary> 
+    /// Scales this tuple.
+    /// </summary>
+    public ATuple Scale(float x, float y, float z)
+    {
+        var tempMatrix = AMatrix4.ScalingMatrix4(x, y, z);
+        return tempMatrix.Multiply(this);
+    }
+    
+    /// <summary> 
+    /// Rotates this tuple across the X axis.
+    /// </summary>
+    public ATuple XRotate(double radians)
+    {
+        var tempMatrix = AMatrix4.RotationXMatrix4(radians);
+        return tempMatrix.Multiply(this);
+    }
+    
+    /// <summary> 
+    /// Rotates this tuple across the Y axis.
+    /// </summary>
+    public ATuple YRotate(double radians)
+    {
+        var tempMatrix = AMatrix4.RotationYMatrix4(radians);
+        return tempMatrix.Multiply(this);
+    }
+    
+    /// <summary> 
+    /// Rotates this tuple across the Z axis.
+    /// </summary>
+    public ATuple ZRotate(double radians)
+    {
+        var tempMatrix = AMatrix4.RotationZMatrix4(radians);
+        return tempMatrix.Multiply(this);
+    }
+
+    /// <summary> 
+    /// Shears this tuple.
+    /// </summary>
+    public ATuple Shear(float xy, float xz, float yx, float yz, float zx, float zy)
+    {
+        var tempMatrix = AMatrix4.ShearMatrix4(xy, xz, yx, yz, zx, yz);
+        return tempMatrix.Multiply(this);
+    }
 }
