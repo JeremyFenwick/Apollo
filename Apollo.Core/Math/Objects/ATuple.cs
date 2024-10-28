@@ -94,7 +94,7 @@ public readonly struct ATuple
     /// <summary> 
     /// Returns a scalar. The inner product of two tuples.
     /// </summary>
-    public double DotProduct(ATuple b)
+    public float DotProduct(ATuple b)
     {
         return (X * b.X) + (Y * b.Y) + (Z * b.Z) + (W * b.W);
     }

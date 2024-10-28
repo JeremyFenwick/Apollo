@@ -3,7 +3,7 @@
 /// <summary> 
 /// A 4x4 matrix of floating point numbers.
 /// </summary>
-public readonly struct AMatrix4
+public class AMatrix4
 {
     private readonly float[,] _matrix;
 
