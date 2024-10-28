@@ -1,6 +1,8 @@
-﻿namespace Apollo.Geometry.Objects;
+﻿using Apollo.Geometry.Interfaces;
 
-public class Sphere
+namespace Apollo.Geometry.Objects;
+
+public class Sphere : Shape
 {
     public Sphere()
     {

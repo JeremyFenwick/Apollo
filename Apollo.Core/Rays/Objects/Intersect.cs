@@ -1,15 +1,21 @@
-﻿namespace Apollo.Rays.Objects;
+﻿using Apollo.Geometry.Interfaces;
 
-public class Intersect
+namespace Apollo.Rays.Objects;
+
+public class Intersect : IComparable<Intersect>
 {
-    public bool Intersected { get; }
-    public float LocationOne { get; }
-    public float LocationTwo { get; }
+    public Shape Object { get; }
+    public float Location { get; }
 
-    public Intersect(bool intersected, float locationOne, float locationTwo)
+    public Intersect(Shape shape, float location)
     {
-        Intersected = intersected;
-        LocationOne = locationOne;
-        LocationTwo = locationTwo;
+        Object = shape;
+        Location = location;
+    }
+
+    public int CompareTo(Intersect? other)
+    {
+        if (other == null) return 1;
+        return (int) System.Math.Round(this.Location - other.Location, 0);
     }
 }

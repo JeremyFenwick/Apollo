@@ -29,7 +29,7 @@ public class Ray
     /// Computes where this ray intersects a sphere. Returns an intersect which contains the intersection points, if they exist.
     /// https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
     /// </summary>
-    public Intersect SphereIntersect(Sphere sphere)
+    public IList<Intersect> SphereIntersect(Sphere sphere)
     {
         var sphereToRay = this.Origin.Subtract(MathFactory.Point(0, 0, 0));
 
@@ -40,13 +40,32 @@ public class Ray
         var discriminant = (b * b) - (4 * a * c);
         if (discriminant < 0)
         {
-            return new Intersect(false, -1, -1);
+            return new List<Intersect>();
         }
         else
         {
             var t1 = (float) (-b - System.Math.Sqrt(discriminant)) / (2 * a);
             var t2 = (float) (-b + System.Math.Sqrt(discriminant)) / (2 * a);
-            return new Intersect(true, t1, t2);
+            var i1 = new Intersect(sphere, t1);
+            var i2 = new Intersect(sphere, t2);
+            return [i1, i2];
         }
+    }
+    
+    /// <summary> 
+    /// Takes a list of intersections and only returns the hits. A hit is a positive value.
+    /// Negative values are intersections "behind" the rays origin (i.e. the camera).
+    /// </summary>
+    public static IList<Intersect> Hits(IList<Intersect> intersections)
+    {
+        return intersections.OrderBy(item => item.Location).Where(item => item.Location >= 0).ToList();
+    }
+    
+    /// <summary> 
+    /// Takes a list of intersections and only returns the most significant (closest) hit.
+    /// </summary>
+    public static Intersect? Hit(IList<Intersect> intersections)
+    {
+        return intersections.OrderBy(item => item.Location).FirstOrDefault(item => item.Location >= 0);
     }
 }
