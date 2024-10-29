@@ -31,10 +31,11 @@ public class Ray
     /// </summary>
     public IList<Intersect> SphereIntersect(Sphere sphere)
     {
-        var sphereToRay = this.Origin.Subtract(MathFactory.Point(0, 0, 0));
+        var tRay = this.Transform(sphere.Transform.Inverse());
+        var sphereToRay = tRay.Origin.Subtract(MathFactory.Point(0, 0, 0));
 
-        var a = this.Direction.DotProduct(this.Direction);
-        var b = 2 * this.Direction.DotProduct(sphereToRay);
+        var a = tRay.Direction.DotProduct(tRay.Direction);
+        var b = 2 * tRay.Direction.DotProduct(sphereToRay);
         var c = sphereToRay.DotProduct(sphereToRay) - 1;
 
         var discriminant = (b * b) - (4 * a * c);
@@ -56,7 +57,7 @@ public class Ray
     /// Takes a list of intersections and only returns the hits. A hit is a positive value.
     /// Negative values are intersections "behind" the rays origin (i.e. the camera).
     /// </summary>
-    public static IList<Intersect> Hits(IList<Intersect> intersections)
+    public static IList<Intersect> Hits(IEnumerable<Intersect> intersections)
     {
         return intersections.OrderBy(item => item.Location).Where(item => item.Location >= 0).ToList();
     }
@@ -64,8 +65,18 @@ public class Ray
     /// <summary> 
     /// Takes a list of intersections and only returns the most significant (closest) hit.
     /// </summary>
-    public static Intersect? Hit(IList<Intersect> intersections)
+    public static Intersect? Hit(IEnumerable<Intersect> intersections)
     {
         return intersections.OrderBy(item => item.Location).FirstOrDefault(item => item.Location >= 0);
+    }
+
+    /// <summary> 
+    /// Takes this ray and transforms its origin and direction by a matrix.
+    /// </summary>
+    public Ray Transform(AMatrix4 matrix)
+    {
+        var tOrigin = matrix.Multiply(this.Origin);
+        var tPosition = matrix.Multiply(this.Direction);
+        return new Ray(tOrigin, tPosition);
     }
 }

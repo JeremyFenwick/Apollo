@@ -1,5 +1,6 @@
 ﻿using Apollo.Geometry.Objects;
 using Apollo.Math;
+using Apollo.Math.Objects;
 using Apollo.Rays.Objects;
 
 namespace Apollo.Tests.Rays;
@@ -145,5 +146,62 @@ public class Rays
         var i4 = new Intersect(sphere, 2);
         List<Intersect> xs = [i1, i2, i3, i4];
         Assert.That(Ray.Hit(xs) == i4);
+    }
+
+    [Test]
+    public void Transform()
+    {
+        var ray = new Ray(MathFactory.Point(1, 2, 3), MathFactory.Vector(0, 1, 0));
+        var matrix = AMatrix4.TranslationMatrix4(3, 4, 5);
+        var tRay = ray.Transform(matrix);
+        Assert.That(tRay.Origin.Equals(MathFactory.Point(4, 6, 8)));
+        Assert.That(tRay.Direction.Equals(MathFactory.Vector(0, 1, 0)));
+    }
+    
+    [Test]
+    public void Transform2()
+    {
+        var ray = new Ray(MathFactory.Point(1, 2, 3), MathFactory.Vector(0, 1, 0));
+        var matrix = AMatrix4.ScalingMatrix4(2, 3, 4);
+        var tRay = ray.Transform(matrix);
+        Assert.That(tRay.Origin.Equals(MathFactory.Point(2, 6, 12)));
+        Assert.That(tRay.Direction.Equals(MathFactory.Vector(0, 3, 0)));
+    }
+    
+    [Test]
+    public void DefaultSphereTransform()
+    {
+        var sphere = new Sphere();
+        Assert.That(sphere.Transform.Equals(AMatrix4.IdentityMatrix4()));
+    }
+    
+    [Test]
+    public void ChangeSphereTransform()
+    {
+        var sphere = new Sphere();
+        sphere.Transform = AMatrix4.TranslationMatrix4(2, 3, 4);
+        Assert.That(sphere.Transform.Equals(AMatrix4.TranslationMatrix4(2, 3, 4)));
+    }
+
+    [Test]
+    public void IntersectScaledSphere()
+    {
+        var ray = new Ray(MathFactory.Point(0, 0, -5), MathFactory.Vector(0, 0, 1));
+        var sphere = new Sphere();
+        sphere.Transform = AMatrix4.ScalingMatrix4(2, 2, 2);
+        var xs  = ray.SphereIntersect(sphere);
+        Assert.That(xs.Count() == 2);
+        Assert.That(System.Math.Abs(xs[0].Location - 3f) < 0.00001);
+        Assert.That(System.Math.Abs(xs[1].Location - 7f) < 0.00001);
+    }
+
+    [Test]
+    public void IntersectTranslatedSphere()
+    {
+        var ray = new Ray(MathFactory.Point(0, 0, -5), MathFactory.Vector(0, 0, 1));
+        var sphere = new Sphere();
+        sphere.Transform = AMatrix4.TranslationMatrix4(5, 0 , 0);
+        var xs = ray.SphereIntersect(sphere);
+        Assert.That(xs.Count == 0);
     }
 }
