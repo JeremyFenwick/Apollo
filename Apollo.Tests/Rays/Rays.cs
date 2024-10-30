@@ -1,4 +1,5 @@
-﻿using Apollo.Geometry.Objects;
+﻿using Apollo.Display.Objects;
+using Apollo.Geometry.Objects;
 using Apollo.Math;
 using Apollo.Math.Objects;
 using Apollo.Rays.Objects;
@@ -203,5 +204,41 @@ public class Rays
         sphere.Transform = AMatrix4.TranslationMatrix4(5, 0 , 0);
         var xs = ray.SphereIntersect(sphere);
         Assert.That(xs.Count == 0);
+    }
+    
+    // Draw a circle and output to a file
+    [Test]
+    public void CircleToFile()
+    {
+        var canvasSide = 1200;
+        var canvas = new Canvas(canvasSide, canvasSide);
+        var rayOrigin = MathFactory.Point(0, 0, -5);
+        var wallZ = 10f;
+        var wallSize = 7f;
+        var pixelSize = wallSize / canvasSide;
+        var half = wallSize / 2;
+        var color = new Colour(255, 165, 0);
+        var sphere = new Sphere();
+
+        Parallel.For(0, canvasSide, row =>
+        {
+            var worldY = half - (pixelSize * row);
+            
+            for (int col = 0; col < canvasSide; col++)
+            {
+                var worldX = -half + (pixelSize * col);
+                var position = MathFactory.Point(worldX, worldY, wallZ);
+                var ray = new Ray(rayOrigin, position.Subtract(rayOrigin).Normalize());
+                Console.WriteLine($"X: {ray.Direction.X} Y: {ray.Direction.Y} Z: {ray.Direction.Z}");
+                var hit = ray.SphereIntersect(sphere);
+                if (hit.Count > 0)
+                {
+                    canvas.Write(row, col, color);
+                }
+            }
+        });
+
+        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        File.WriteAllText(Path.Combine(docPath, "BasicCircle.ppm"), canvas.ExportAsPpm());
     }
 }
