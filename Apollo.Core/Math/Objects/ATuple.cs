@@ -176,4 +176,13 @@ public readonly struct ATuple
         var tempMatrix = AMatrix4.ShearMatrix4(xy, xz, yx, yz, zx, yz);
         return tempMatrix.Multiply(this);
     }
+
+    /// <summary> 
+    /// Calculates the reflection of this tuple against a normal.
+    /// </summary>
+    public ATuple Reflect(ATuple normal)
+    {
+        var temp = normal.Multiply(2).Multiply(this.DotProduct(normal));
+        return this.Subtract(temp);
+    }
 }

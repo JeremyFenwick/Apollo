@@ -78,11 +78,11 @@ public class Canvas
                 // Add a newline every 5th column, only if the number of columns is greater than 5
                 if ((col + 1) % 5 == 0 && _columns > 5)
                 {
-                    builder.Append('\n');
+                    builder.Append($"{Environment.NewLine}");
                 }
             }
             // Add a newline at the end of each row
-            builder.Append('\n');
+            builder.Append($"{Environment.NewLine}");
         }
         return builder.ToString();
     }

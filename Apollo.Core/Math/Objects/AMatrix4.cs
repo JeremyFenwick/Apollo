@@ -278,7 +278,7 @@ public class AMatrix4
     public static AMatrix4 ZRotationMatrix4(double degrees)
     {
         var result = new float[4, 4];
-        result[1, 1] = 1;
+        result[2, 2] = 1;
         result[3, 3] = 1;
         result[0, 0] = (float) System.Math.Cos(degrees);
         result[0, 1] = (float) -System.Math.Sin(degrees);
