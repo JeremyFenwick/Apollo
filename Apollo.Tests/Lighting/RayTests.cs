@@ -136,4 +136,24 @@ public class RayTests
         var intersections = new Intersections([intersect1, intersect2, intersect3, intersect4]);
         Assert.That(Ray.Hit(intersections) == intersect4);
     }
+
+    [Test]
+    public void Translate()
+    {
+        var ray = new Ray(new Point(1, 2, 3), new Vector(0, 1, 0));
+        var tRay = ray.Translate(3, 4, 5);
+        Assert.That(tRay.Origin == new Point(4, 6, 8));
+        Assert.That(tRay.Direction == new Vector(0, 1, 0));
+    }
+    
+    [Test]
+    public void Scale()
+    {
+        var ray = new Ray(new Point(1, 2, 3), new Vector(0, 1, 0));
+        var tRay = ray.Scale(2, 3, 4);
+        Assert.That(tRay.Origin == new Point(2, 6, 12));
+        Assert.That(tRay.Direction == new Vector(0, 3, 0));
+    }
+    
+    
 }
