@@ -6,7 +6,7 @@ public class AbstractTuple(float x, float y, float z)
     public float Y { get; } = y;
     public float Z { get; } = z;
     public virtual float W { get; } = -1;
-    protected const float Epsilon = 0.00001f;
+    private const float Epsilon = 0.00001f;
     
     public static bool operator ==(AbstractTuple a, AbstractTuple b)
     {
@@ -104,5 +104,41 @@ public class AbstractTuple(float x, float y, float z)
     public AbstractTuple Cross(AbstractTuple b)
     {
         return new Vector(Y * b.Z - Z * b.Y, Z * b.X - X * b.Z, X * b.Y - Y * b.X);
+    }
+    
+    public AbstractTuple Translate(float x, float y, float z)
+    {
+        var tMatrix = Matrix.Translation(x, y, z);
+        return this * tMatrix;
+    }
+    
+    public AbstractTuple Scale(float x, float y, float z)
+    {
+        var sMatrix = Matrix.Scaling(x, y, z);
+        return this * sMatrix;
+    }
+
+    public AbstractTuple XRotate(double radians)
+    {
+        var xMatrix = Matrix.XRotation(radians);
+        return this * xMatrix;
+    }
+    
+    public AbstractTuple YRotate(double radians)
+    {
+        var yMatrix = Matrix.YRotation(radians);
+        return this * yMatrix;
+    }
+    
+    public AbstractTuple ZRotate(double radians)
+    {
+        var zMatrix = Matrix.ZRotation(radians);
+        return this * zMatrix;
+    }
+    
+    public AbstractTuple Shear(float xy, float xz, float yx, float yz, float zx, float zy)
+    {
+        var sMatrix = Matrix.Shear(xy, xz, yx, yz, zx, zy);
+        return this * sMatrix;
     }
 }

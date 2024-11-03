@@ -199,4 +199,128 @@ public class MatrixTests
         var recoveredMatrixA = matrixC * matrixB.Inverse();
         Assert.True(recoveredMatrixA == matrixA);
     }
+
+    [Test]
+    public void Translation()
+    {
+        var tMatrix = Matrix.Translation(5, -3, 2);
+        Assert.That(tMatrix * new Point(-3, 4, 5) == new Point(2, 1, 7));
+        Assert.That(new Point(-3, 4, 5).Translate(5, -3, 2) == new Point(2, 1, 7));
+    }
+
+    [Test]
+    public void Translation2()
+    {
+        var tMatrix = Matrix.Translation(5, -3, 2);
+        var iMatrix = tMatrix.Inverse();
+        var point = new Point(-3, 4, 5);
+        Assert.That(iMatrix * point == new Point(-8, 7, 3));
+    }
+
+    [Test]
+    public void Translation3()
+    {
+        var vector = new Vector(-3, 4, 5);
+        Assert.That(vector.Translate(5, -3, 2) == vector);
+    }
+
+    [Test]
+    public void Scaling()
+    {
+        Assert.That(new Point(-4, 6, 8).Scale(2, 3, 4) == new Point(-8, 18, 32));
+    }
+    
+    [Test]
+    public void Scaling2()
+    {
+        Assert.That(new Vector(-4, 6, 8).Scale(2, 3, 4) == new Vector(-8, 18, 32));
+    }
+
+    [Test]
+    public void Scaling3()
+    {
+        var vector = new Vector(-4, 6, 8);
+        var matrix = Matrix.Scaling(2, 3, 4).Inverse();
+        Assert.That(vector * matrix == new Vector(-2, 2, 2));
+    }
+
+    [Test]
+    public void Scaling4()
+    {
+        Assert.That(new Point(2, 3, 4).Scale(-1, 1, 1) == new Point(-2, 3, 4));
+    }
+
+    [Test]
+    public void XRotation()
+    {
+        var elem = (float) System.Math.Sqrt(2) / 2;
+        Assert.That(new Point(0, 1, 0).XRotate(System.Math.PI / 4) == new Point(0, elem, elem));
+        Assert.That(new Point(0, 1, 0).XRotate(System.Math.PI / 2) == new Point(0, 0, 1));
+    }
+    
+    [Test]
+    public void XRotation2()
+    {
+        var elem = (float) System.Math.Sqrt(2) / 2;
+        var xMatrix = Matrix.XRotation(System.Math.PI / 4).Inverse();
+        Assert.That(new Point(0, 1 ,0) * xMatrix == new Point(0, elem, -elem));
+    }
+
+    [Test]
+    public void YRotation()
+    {
+        var elem = (float) System.Math.Sqrt(2) / 2;
+        Assert.That(new Point(0, 0, 1).YRotate(System.Math.PI / 4) == new Point(elem, 0, elem));
+        Assert.That(new Point(0, 0, 1).YRotate(System.Math.PI / 2) == new Point(1, 0, 0));
+    }
+
+    [Test]
+    public void ZRotation()
+    {
+        var elem = (float) System.Math.Sqrt(2) / 2;
+        Assert.That(new Point(0, 1, 0).ZRotate(System.Math.PI / 4) == new Point(-elem, elem, 0));
+        Assert.That(new Point(0, 1, 0).ZRotate(System.Math.PI / 2) == new Point(-1, 0, 0));
+    }
+
+    [Test]
+    public void Shearing()
+    {
+        Assert.That(new Point(2, 3, 4).Shear(1, 0, 0, 0, 0 ,0) == new Point(5, 3, 4));
+    }
+    
+    [Test]
+    public void Shearing2()
+    {
+        Assert.That(new Point(2, 3, 4).Shear(0, 1, 0, 0, 0 ,0) == new Point(6, 3, 4));
+    }
+    
+    [Test]
+    public void Shearing3()
+    {
+        Assert.That(new Point(2, 3, 4).Shear(0, 0, 1, 0, 0 ,0) == new Point(2, 5, 4));
+    }
+    
+    [Test]
+    public void Shearing4()
+    {
+        Assert.That(new Point(2, 3, 4).Shear(0, 0, 0, 1, 0 ,0) == new Point(2, 7, 4));
+    }
+    
+    [Test]
+    public void Shearing5()
+    {
+        Assert.That(new Point(2, 3, 4).Shear(0, 0, 0, 0, 1 ,0) == new Point(2, 3, 6));
+    }
+    
+    [Test]
+    public void Shearing6()
+    {
+        Assert.That(new Point(2, 3, 4).Shear(0, 0, 0, 0, 0 ,1) == new Point(2, 3, 7));
+    }
+
+    [Test]
+    public void Chaining()
+    {
+        Assert.That(new Point(1, 0, 1).XRotate(System.Math.PI / 2).Scale(5, 5, 5).Translate(10, 5, 7) == new Point(15, 0, 7));
+    }
 }

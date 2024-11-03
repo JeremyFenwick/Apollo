@@ -134,6 +134,19 @@ public class Matrix
         return new ATuple(x, y, z, w);
     }
     
+    public static AbstractTuple operator *(AbstractTuple t, Matrix m)
+    {
+        if (m.Size != 4 )
+        {
+            throw new Exception("Matrix multiplication only implemented for 4x4 matrices!");
+        }
+        var x = (t.X * m._data[0, 0]) + (t.Y * m._data[0, 1]) + (t.Z * m._data[0, 2]) + (t.W * m._data[0, 3]);
+        var y = (t.X * m._data[1, 0]) + (t.Y * m._data[1, 1]) + (t.Z * m._data[1, 2]) + (t.W * m._data[1, 3]);
+        var z = (t.X * m._data[2, 0]) + (t.Y * m._data[2, 1]) + (t.Z * m._data[2, 2]) + (t.W * m._data[2, 3]);
+        var w = (t.X * m._data[3, 0]) + (t.Y * m._data[3, 1]) + (t.Z * m._data[3, 2]) + (t.W * m._data[3, 3]);
+        return new ATuple(x, y, z, w);
+    }
+    
     /// <summary> 
     /// Returns the 4X4 identity matrix.
     /// https://en.wikipedia.org/wiki/Identity_matrix
@@ -266,5 +279,80 @@ public class Matrix
     public bool Invertable()
     {
         return this.Determinant() != 0;
+    }
+
+    public static Matrix Translation(float x, float y, float z)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = 1;
+        result[1, 1] = 1;
+        result[2, 2] = 1;
+        result[3, 3] = 1;
+        result[0, 3] = x;
+        result[1, 3] = y;
+        result[2, 3] = z;
+        return new Matrix(result);
+    }
+    
+    public static Matrix Scaling(float x, float y, float z)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = x;
+        result[1, 1] = y;
+        result[2, 2] = z;
+        result[3, 3] = 1;
+        return new Matrix(result);
+    }
+
+    public static Matrix XRotation(double radians)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = 1;
+        result[1, 1] = (float) System.Math.Cos(radians);
+        result[1, 2] = (float) - System.Math.Sin(radians);
+        result[2, 1] = (float) System.Math.Sin(radians);
+        result[2, 2] = (float) System.Math.Cos(radians);
+        result[3, 3] = 1;
+        return new Matrix(result);
+    }
+    
+    public static Matrix YRotation(double radians)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = (float) System.Math.Cos(radians);;
+        result[0, 2] = (float) System.Math.Sin(radians);
+        result[1, 1] = 1;
+        result[2, 0] = (float) - System.Math.Sin(radians);
+        result[2, 2] = (float) System.Math.Cos(radians);
+        result[3, 3] = 1;
+        return new Matrix(result);
+    }
+
+    public static Matrix ZRotation(double radians)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = (float) System.Math.Cos(radians);
+        result[0, 1] = (float) - System.Math.Sin(radians);
+        result[1, 0] = (float) System.Math.Sin(radians);
+        result[1, 1] = (float) System.Math.Cos(radians);
+        result[2, 2] = 1;
+        result[3, 3] = 1;
+        return new Matrix(result);
+    }
+
+    public static Matrix Shear(float xy, float xz, float yx, float yz, float zx, float zy)
+    {
+        var result = new float[4, 4];
+        result[0, 0] = 1;
+        result[0, 1] = xy;
+        result[0, 2] = xz;
+        result[1, 0] = yx;
+        result[1, 1] = 1;
+        result[1, 2] = yz;
+        result[2, 0] = zx;
+        result[2, 1] = zy;
+        result[2, 2] = 1;
+        result[3, 3] = 1;
+        return new Matrix(result);
     }
 }
