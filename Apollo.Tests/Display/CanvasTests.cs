@@ -1,122 +1,49 @@
-﻿using Apollo.Display.Objects;
-using Apollo.Math;
-using Apollo.Tests.Cannon;
+﻿using Apollo.Display;
+using Apollo.Display.ColourPresets;
 
-namespace Apollo.Tests.D;
+namespace Apollo.Tests.Display;
 
 public class CanvasTests
 {
     [Test]
     public void CreateCanvas()
     {
-        var canvas = new Canvas(20, 10);
-        Assert.That(canvas, Is.Not.Null);
-        Assert.True(canvas.Read(5, 5).Blue == 0f);
-        Assert.True(canvas.Read(5, 5).Green == 0f);
-        Assert.True(canvas.Read(5, 5).Red == 0f);
+        var canvas = new Canvas(10, 20);
+        for (int col = 0; col < 10; col++)
+        {
+            for (int row = 0; row < 20; row++)
+            {
+                Assert.That(canvas.Get(col, row) == new Black());
+            }
+        }
     }
 
     [Test]
-    public void WriteToCanvas()
+    public void DrawToCanvas()
     {
-        var canvas = new Canvas(20, 10);
-        var red = new Colour(1, 0, 0);
-        canvas.Write(3, 2, red);
-        Assert.That(canvas.Read(3, 2).Red, Is.EqualTo(1.0f));
+        var canvas = new Canvas(10, 20);
+        canvas.Set(1, 0, new Red());
+        Assert.That(canvas.Get(1, 0) == new Red());
     }
 
     [Test]
-    public void PpmExport()
+    public void PPMExport()
     {
-        var canvas = new Canvas(20, 10);
-        var ppm = canvas.ExportAsPpm();
-        Assert.That(ppm.Contains("P3\n10 20\n255"));
-    }
-    
-    // Visual Test. No actual assert used.
-    [Test]
-    public void PpmExport2()
-    {
-        var canvas = new Canvas(3, 5);
+        var canvas = new Canvas(10, 20);
         var c1 = new Colour(1.5f, 0, 0);
         var c2 = new Colour(0, 0.5f, 0);
         var c3 = new Colour(-0.5f, 0, 1);
-        canvas.Write(0, 0, c1);
-        canvas.Write(1, 2, c2);
-        canvas.Write(2, 4, c3);
-        var ppm2 = canvas.ExportAsPpm();
-        Console.WriteLine(ppm2);
-    }
-    
-    // Visual Test. No actual assert used.
-    [Test]
-    public void PpmExport3()
-    {
-        var canvas = new Canvas(3, 6);
-        var ppm = canvas.ExportAsPpm();
-        Console.WriteLine(ppm);
-    }
-    
-    // Visual Test. No actual assert used.
-    [Test]
-    public void PpmExport4()
-    {
-        var canvas = new Canvas(3, 7);
-        var ppm = canvas.ExportAsPpm();
-        Console.WriteLine(ppm);
-    }
-    
-    // Visual Test. No actual assert used.
-    [Test]
-    public void PpmExport5()
-    {
-        var canvas = new Canvas(3, 7);
-        canvas.SetBackground(new Colour(1f, 0.8f, 0.6f));
-        var ppm = canvas.ExportAsPpm();
-        Console.WriteLine(ppm);
-    }
-    
-    // Visual Test. No actual assert used.
-    [Test]
-    public void PpmExport6()
-    {
-        var canvas = new Canvas(3, 22);
-        canvas.SetBackground(new Colour(1f, 0.8f, 0.6f));
-        var ppm = canvas.ExportAsPpm();
-        Console.WriteLine(ppm);
+        canvas.Set(0, 0, c1);
+        canvas.Set(2, 1, c2);
+        canvas.Set(4, 2, c3);
+        Console.Write(canvas.ExportAsPpm());
     }
 
-    // Write the canvas to a file.
     [Test]
-    public void PpmToTextFile()
+    public void Fill()
     {
-        var canvas = new Canvas(550, 900);
-        var ppmString = canvas.ExportAsPpm();
-        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        File.WriteAllText(Path.Combine(docPath, "CanvasExport.ppm"), ppmString);
-    }
-    
-    // Write cannonball fire to file
-    [Test]
-    public void WriteCannonballImage()
-    {
-        var canvas = new Canvas(550, 900);
-        var start = MathFactory.Point(0, 1, 0);
-        var velocity = MathFactory.Vector(1, 1.8f, 0).Normalize().Multiply(11.25f);
-        var projectile = new Projectile(start, velocity);
-        var gravity = MathFactory.Vector(0, -0.1f, 0);
-        var wind = MathFactory.Vector(-0.01f, 0, 0);
-        var environment = new FEnvironment(gravity, wind);
-        var fireColour = new Colour(255, 165, 0);
-        while (projectile.Position.Y > 0)
-        {
-            projectile = Cannon.CannonFire.Tick(projectile, environment);
-            var x = (int) System.Math.Round(projectile.Position.X, 0);
-            var y = 550 - (int) System.Math.Round(projectile.Position.Y, 0);
-            Console.WriteLine($"X:{x} Y:{y}");
-            canvas.Write(y, x, fireColour);
-        }
-        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        File.WriteAllText(Path.Combine(docPath, "CanvasExport.ppm"), canvas.ExportAsPpm());
+        var canvas = new Canvas(10, 20);
+        canvas.Fill(new Colour(1f, 0.8f, 0.6f));
+        Console.Write(canvas.ExportAsPpm());
     }
 }

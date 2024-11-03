@@ -1,58 +1,48 @@
 ﻿using System.Text;
+using Apollo.Display.ColourPresets;
 
-namespace Apollo.Display.Objects;
+namespace Apollo.Display;
 
-/// <summary> 
-/// Creates a canvas, which contains the pixels used for image generation and manipulation in a ROWS * COLUMNS grid.
-/// </summary>
 public class Canvas
 {
-    private readonly Colour[,] _grid;
+    private readonly AbstractColour[,] _pixels;
     private readonly int _rows;
     private readonly int _columns;
     private const int Colours = 255;
 
-    public Canvas(int rows, int columns)
+    public Canvas(int columns, int rows)
     {
-        _grid = new Colour[rows,columns];
-        _rows = rows;
-        _columns = columns;
-    }
-    
-    /// <summary> 
-    /// Writes a new colour to the location ROW, COLUMN.
-    /// </summary>
-    public void Write(int row, int col, Colour colour)
-    {
-        if (row < 0 || row > _rows - 1 || col < 0 || col > _columns - 1)
-        {
-            return;
-        }
-        _grid[row, col] = colour;
-    }
-    
-    /// <summary> 
-    /// Returns the colour at the location ROW, COLUMN.
-    /// </summary>
-    public Colour Read(int row, int col)
-    {
-        return _grid[row, col];
+        _pixels = new AbstractColour[columns, rows];
+        (_columns, _rows) = (columns, rows);
+        Fill(new Black());
     }
 
-    /// <summary> 
-    /// Sets every colour in the grid to the colour provided.
-    /// </summary>
-    public void SetBackground(Colour colour)
+    public void Fill(AbstractColour colour)
     {
-        for (int i = 0; i < _grid.GetLength(0); i++)
+        for (int col = 0; col < _columns; col++)
         {
-            for (int j = 0; j < _grid.GetLength(1); j++)
+            for (int row = 0; row < _rows; row++)
             {
-                _grid[i, j] = colour;
+                _pixels[col, row] = colour;
             }
         }
     }
 
+    public AbstractColour Get(int col, int row)
+    {
+        return _pixels[col, row];
+    }
+
+    public bool Set(int col, int row, AbstractColour value)
+    {
+        if (col < 0 || col >= _pixels.GetLength(0) || row < 0 || row >= _pixels.GetLength(1))
+        {
+            return false;
+        }
+        _pixels[col, row] = value;
+        return true;
+    }
+    
     /// <summary> 
     /// Exports a string of the canvas in the PPM format.
     /// https://netpbm.sourceforge.net/doc/ppm.html
@@ -68,12 +58,12 @@ public class Canvas
         {
             for (var col = 0; col < _columns; col++)
             {
-                var colour = _grid[row, col];
-                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.Red) * 255));
+                var colour = _pixels[col, row];
+                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.R) * 255));
                 builder.Append(' ');
-                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.Green) * 255));
+                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.G) * 255));
                 builder.Append(' ');
-                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.Blue) * 255));
+                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.B) * 255));
                 builder.Append(' ');
                 // Add a newline every 5th column, only if the number of columns is greater than 5
                 if ((col + 1) % 5 == 0 && _columns > 5)
