@@ -67,6 +67,15 @@ public class Matrix
     {
         return _data[row, column];
     }
+    
+    public override bool Equals(Object? obj)
+    {
+        if (obj is not Matrix matrix)
+        {
+            return false;
+        }
+        return this == matrix;
+    }
 
     public static bool operator ==(Matrix a, Matrix b)
     {

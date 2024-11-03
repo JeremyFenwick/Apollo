@@ -7,6 +7,16 @@ public abstract class AbstractColour
     public virtual float B { get; } = 0;
     private const float Epsilon = 0.00001f;
 
+    
+    public override bool Equals(Object? obj)
+    {
+        if (obj is not AbstractColour colour)
+        {
+            return false;
+        }
+        return this == colour;
+    }
+    
     public static bool operator ==(AbstractColour c1, AbstractColour c2)
     {
         if (System.Math.Abs(c1.R - c2.R) > Epsilon)

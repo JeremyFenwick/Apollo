@@ -13,5 +13,6 @@ public class Point : AbstractTuple
 
     public Point(AbstractTuple tuple) : base(tuple)
     {
+        W = 1;
     }
 }
