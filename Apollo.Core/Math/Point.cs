@@ -2,8 +2,16 @@
 
 namespace Apollo.Math;
 
-public class Point(float x, float y, float z) : AbstractTuple(x, y, z)
+public class Point : AbstractTuple
 {
-    public override float W { get; } = 1;
+    public override float W { get; }
 
+    public Point(float x, float y, float z) : base(x, y, z)
+    {
+        W = 1;
+    }
+
+    public Point(AbstractTuple tuple) : base(tuple)
+    {
+    }
 }

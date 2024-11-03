@@ -5,18 +5,19 @@ public abstract class AbstractColour
     public virtual float R { get; } = 0;
     public virtual float G { get; } = 0;
     public virtual float B { get; } = 0;
+    private const float Epsilon = 0.00001f;
 
     public static bool operator ==(AbstractColour c1, AbstractColour c2)
     {
-        if (System.Math.Abs(c1.R - c2.R) > 0.00001)
+        if (System.Math.Abs(c1.R - c2.R) > Epsilon)
         {
             return false;
         }
-        if (System.Math.Abs(c1.G - c2.G) > 0.00001)
+        if (System.Math.Abs(c1.G - c2.G) > Epsilon)
         {
             return false;
         }
-        if (System.Math.Abs(c1.B - c2.B) > 0.00001)
+        if (System.Math.Abs(c1.B - c2.B) > Epsilon)
         {
             return false;
         }
@@ -25,15 +26,15 @@ public abstract class AbstractColour
     
     public static bool operator !=(AbstractColour c1, AbstractColour c2)
     {
-        if (System.Math.Abs(c1.R - c2.R) > 0.00001)
+        if (System.Math.Abs(c1.R - c2.R) > Epsilon)
         {
             return true;
         }
-        if (System.Math.Abs(c1.G - c2.G) > 0.00001)
+        if (System.Math.Abs(c1.G - c2.G) > Epsilon)
         {
             return true;
         }
-        if (System.Math.Abs(c1.B - c2.B) > 0.00001)
+        if (System.Math.Abs(c1.B - c2.B) > Epsilon)
         {
             return true;
         }

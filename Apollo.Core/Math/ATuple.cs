@@ -2,7 +2,12 @@
 
 namespace Apollo.Math;
 
-public class ATuple(float x, float y, float z, float w) : AbstractTuple(x, y, z)
+public class ATuple : AbstractTuple
 {
-    public override float W { get; } = w;
+    public override float W { get; }
+    
+    public ATuple(float x, float y, float z, float w) : base(x, y, z)
+    {
+        W = w;
+    }
 }

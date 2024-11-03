@@ -1,13 +1,28 @@
 ﻿namespace Apollo.Math.AbstractClasses;
 
-public class AbstractTuple(float x, float y, float z)
+public class AbstractTuple
 {
-    public float X { get; } = x;
-    public float Y { get; } = y;
-    public float Z { get; } = z;
-    public virtual float W { get; } = -1;
+    public float X { get; }
+    public float Y { get; }
+    public float Z { get; }
+    public virtual float W { get; }
     private const float Epsilon = 0.00001f;
-    
+
+    protected AbstractTuple(float x, float y, float z)
+    {
+     (X, Y, Z, W) = (x, y, z, 0);
+    }
+
+    protected AbstractTuple(AbstractTuple tuple)
+    {
+        (X, Y, Z, W) = (tuple.X, tuple.Y, tuple.Z, tuple.W);
+    }
+
+    protected AbstractTuple()
+    {
+        throw new NotImplementedException();
+    }
+
     public static bool operator ==(AbstractTuple a, AbstractTuple b)
     {
         if (System.Math.Abs(a.X - b.X) > Epsilon)
@@ -27,6 +42,15 @@ public class AbstractTuple(float x, float y, float z)
             return false;
         }
         return true;
+    }
+    
+    public override bool Equals(Object? obj)
+    {
+        if (obj is not AbstractTuple tuple)
+        {
+            return false;
+        }
+        return this == tuple;
     }
     
     public static bool operator !=(AbstractTuple a, AbstractTuple b)
