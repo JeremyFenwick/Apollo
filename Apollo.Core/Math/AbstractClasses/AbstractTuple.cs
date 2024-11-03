@@ -1,4 +1,4 @@
-﻿namespace Apollo.Math;
+﻿namespace Apollo.Math.AbstractClasses;
 
 public class AbstractTuple(float x, float y, float z)
 {

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Apollo.Math.AbstractClasses;
 
 namespace Apollo.Math;
 

@@ -1,4 +1,6 @@
-﻿namespace Apollo.Display.ColourPresets;
+﻿using Apollo.Display.AbstractClasses;
+
+namespace Apollo.Display.ColourPresets;
 
 public class Black : AbstractColour
 {

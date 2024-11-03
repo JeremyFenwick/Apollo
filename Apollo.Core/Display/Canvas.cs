@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Apollo.Display.AbstractClasses;
 using Apollo.Display.ColourPresets;
 
 namespace Apollo.Display;

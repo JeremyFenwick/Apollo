@@ -1,4 +1,6 @@
-﻿namespace Apollo.Display;
+﻿using Apollo.Display.AbstractClasses;
+
+namespace Apollo.Display;
 
 public class Colour : AbstractColour
 {
