@@ -17,6 +17,15 @@ public class Material
         (Colour, Ambient, Diffuse, Specular, Shininess) = (colour, ambient, diffuse, specular, shininess);
     }
 
+    public Material(AbstractColour colour)
+    {
+        Colour = colour;
+        Ambient = 0.1f;
+        Diffuse = 0.9f;
+        Specular = 0.9f;
+        Shininess = 200f;
+    }
+
     public Material()
     {
         Colour = new White();
