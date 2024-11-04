@@ -8,9 +8,11 @@ public class Vector : AbstractTuple
 
     public Vector(float x, float y, float z) : base(x, y, z)
     {
+        W = 0;
     }
-    
+
     public Vector(AbstractTuple tuple) : base(tuple)
     {
+        W = 0;
     }
 }

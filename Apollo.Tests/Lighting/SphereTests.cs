@@ -4,7 +4,7 @@ using Apollo.Math;
 
 namespace Apollo.Tests.Lighting;
 
-public class Spheres
+public class SphereTests
 {
     [Test]
     public void DefaultTransform()

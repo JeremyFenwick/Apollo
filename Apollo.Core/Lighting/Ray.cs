@@ -6,10 +6,10 @@ namespace Apollo.Lighting;
 
 public class Ray
 {
-    public Point Origin { get; }
-    public Vector Direction { get; }
+    public AbstractTuple Origin { get; }
+    public AbstractTuple Direction { get; }
 
-    public Ray(Point origin, Vector direction)
+    public Ray(AbstractTuple origin, AbstractTuple direction)
     {
         (Origin, Direction) = (origin, direction);
     }
@@ -52,36 +52,36 @@ public class Ray
     public Ray Translate(float x, float y, float z)
     {
         var tMatrix = Matrix.Translation(x, y, z);
-        return new Ray(new Point(Origin * tMatrix), new Vector(Direction * tMatrix));
+        return new Ray(Origin * tMatrix,Direction * tMatrix);
     }
     
     public Ray Scale(float x, float y, float z)
     {
         var sMatrix = Matrix.Scaling(x, y, z);
-        return new Ray(new Point(Origin * sMatrix), new Vector(Direction * sMatrix));
+        return new Ray(Origin * sMatrix,Direction * sMatrix);
     }
     
     public Ray XRotate(double radians)
     {
         var xMatrix = Matrix.XRotation(radians);
-        return new Ray(new Point(Origin * xMatrix), new Vector(Direction * xMatrix));
+        return new Ray(Origin * xMatrix,Direction * xMatrix);
     }
     
     public Ray YRotate(double radians)
     {
         var yMatrix = Matrix.YRotation(radians);
-        return new Ray(new Point(Origin * yMatrix), new Vector(Direction * yMatrix));
+        return new Ray(Origin * yMatrix,Direction * yMatrix);
     }
     
     public Ray ZRotate(double radians)
     {
         var zMatrix = Matrix.ZRotation(radians);
-        return new Ray(new Point(Origin * zMatrix), new Vector(Direction * zMatrix));
+        return new Ray(Origin * zMatrix,Direction * zMatrix);
     }
     //
     public Ray Shear(float xy, float xz, float yx, float yz, float zx, float zy)
     {
         var sMatrix = Matrix.Shear(xy, xz, yx, yz, zx, zy);
-        return new Ray(new Point(Origin * sMatrix), new Vector(Direction * sMatrix));
+        return new Ray(Origin * sMatrix,Direction * sMatrix);
     }
 }

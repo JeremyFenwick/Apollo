@@ -165,4 +165,9 @@ public class AbstractTuple
         var sMatrix = Matrix.Shear(xy, xz, yx, yz, zx, zy);
         return this * sMatrix;
     }
+
+    public AbstractTuple Reflect(AbstractTuple normal)
+    {
+        return this - (normal * 2 * Dot(normal));
+    }
 }

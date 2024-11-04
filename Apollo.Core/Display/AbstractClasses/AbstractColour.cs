@@ -5,7 +5,7 @@ public abstract class AbstractColour
     public virtual float R { get; } = 0;
     public virtual float G { get; } = 0;
     public virtual float B { get; } = 0;
-    private const float Epsilon = 0.00001f;
+    private const float Epsilon = 0.0001f;
 
     
     public override bool Equals(Object? obj)
@@ -61,7 +61,7 @@ public abstract class AbstractColour
         return new Colour(c1.R - c2.R, c1.G - c2.G, c1.B - c2.B);
     }
     
-    public static AbstractColour operator *(AbstractColour c1, int scalar)
+    public static AbstractColour operator *(AbstractColour c1, float scalar)
     {
         return new Colour(c1.R * scalar, c1.G * scalar, c1.B * scalar);
     }
