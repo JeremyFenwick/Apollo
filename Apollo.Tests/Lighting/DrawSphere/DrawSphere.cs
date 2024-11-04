@@ -12,7 +12,7 @@ public class DrawSphere
     public void DrawSphereToPpm()
     {
         var sphere = new Sphere();
-        sphere.Material = new Material(new Colour(1, 0.2f, 1));
+        sphere.Material = new Material(new Colour(0.4f, 0.4f, 0.6f));
         var light = new PointLight(new Point(-10, 10, -10), new White());
         var wallZ = 10f;
         var origin = new Point(0, 0, -5);
@@ -44,6 +44,7 @@ public class DrawSphere
         });
         
         string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        Console.Write(canvas.ExportAsPpm());
         File.WriteAllText(Path.Combine(docPath, "Sphere.ppm"), canvas.ExportAsPpm());
     }
 }
