@@ -365,4 +365,27 @@ public class Matrix
         result[3, 3] = 1;
         return new Matrix(result);
     }
+
+    public static Matrix ViewTransform(AbstractTuple from, AbstractTuple to, AbstractTuple up)
+    {
+        var result = new float[4, 4];
+        var forward = (to - from).Normalize();
+        var upN = up.Normalize();
+        var left = forward.Cross(upN);
+        var trueUp = left.Cross(forward);
+
+        result[0, 0] = left.X;
+        result[0, 1] = left.Y;
+        result[0, 2] = left.Z;
+        result[1, 0] = trueUp.X;
+        result[1, 1] = trueUp.Y;
+        result[1, 2] = trueUp.Z;
+        result[2, 0] = -forward.X;
+        result[2, 1] = -forward.Y;
+        result[2, 2] = -forward.Z;
+        result[3, 3] = 1;
+        
+        var temp = new Matrix(result);
+        return temp * Translation(-from.X, -from.Y, -from.Z);
+    }
 }

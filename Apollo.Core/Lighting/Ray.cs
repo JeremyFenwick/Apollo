@@ -1,4 +1,8 @@
-﻿using Apollo.Geometry;
+﻿using Apollo.Display;
+using Apollo.Display.AbstractClasses;
+using Apollo.Display.ColourPresets;
+using Apollo.Geometry;
+using Apollo.Geometry.Interfaces;
 using Apollo.Math;
 using Apollo.Math.AbstractClasses;
 
@@ -19,10 +23,10 @@ public class Ray
         return new Point(Origin + (Direction * time));
     }
 
-    public Intersections Intersect(Sphere sphere)
+    public Intersections Intersect(GeometricObject item)
     {
-        var tOrigin = Origin * sphere.Transform.Inverse();
-        var tDirection = Direction * sphere.Transform.Inverse();
+        var tOrigin = Origin * item.Transform.Inverse();
+        var tDirection = Direction * item.Transform.Inverse();
         
         var sphereToRay = tOrigin - new Point(0, 0, 0);
         
@@ -39,11 +43,27 @@ public class Ray
         {
             var t1 = (float) (-b - System.Math.Sqrt(discriminant)) / (2 * a);
             var t2 = (float) (-b + System.Math.Sqrt(discriminant)) / (2 * a);
-            return new Intersections(new Intersections.Intersect(sphere, t1), new Intersections.Intersect(sphere, t2));
+            return new Intersections(new Intersect(item, t1), new Intersect(item, t2));
         }
     }
 
-    public static Intersections.Intersect? Hit(Intersections intersections)
+    public Intersections WorldIntersect(World world)
+    {
+        var result = new Intersections();
+        foreach (var item in world.Contents)
+        {
+            var intersects = Intersect(item);
+            foreach (var intersection in intersects.Intersects)
+            {
+                result.Intersects.Add(intersection);
+            }
+        }
+
+        result.Intersects.Sort();
+        return result;
+    }
+
+    public static Intersect? Hit(Intersections intersections)
     {
         intersections.Intersects.Sort();
         return intersections.Intersects.FirstOrDefault(item => item.Time >= 0);
@@ -83,5 +103,34 @@ public class Ray
     {
         var sMatrix = Matrix.Shear(xy, xz, yx, yz, zx, zy);
         return new Ray(Origin * sMatrix,Direction * sMatrix);
+    }
+    
+    public Precomputation Precompute(Intersect intersect)
+    {
+        var point = Position(intersect.Time);
+        var eyeV = -Direction;
+        var normalV = intersect.Object.NormalAt(point);
+        var inside = false;
+        
+        if (normalV.Dot(eyeV) < 0)
+        {
+            normalV = -normalV;
+            inside = true;
+        }
+
+        return new Precomputation(intersect.Time, intersect.Object, point, eyeV, normalV, inside);
+    }
+
+    public AbstractColour ColourAt(World world)
+    {
+        var intersections = this.WorldIntersect(world);
+        var hit = Hit(intersections);
+        if (hit == null)
+        {
+            return new Black();
+        }
+        var comp = Precompute(hit);
+        var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.Point, comp.EyeV, comp.NormalV);
+        return shadeHit;
     }
 }

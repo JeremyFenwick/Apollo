@@ -79,7 +79,7 @@ public class RayTests
     public void Intersection6()
     {
         var sphere = new Sphere();
-        var intersect = new Intersections.Intersect(sphere, 3.5f);
+        var intersect = new Intersect(sphere, 3.5f);
         Assert.That(intersect.Object.Equals(sphere));
     }
     
@@ -87,20 +87,20 @@ public class RayTests
     public void Intersection7()
     {
         var sphere = new Sphere();
-        var intersect1 = new Intersections.Intersect(sphere, 1);
-        var intersect2 = new Intersections.Intersect(sphere, 2);
-        var intersections = new Intersections(intersect1, intersect2);
-        Assert.That(intersections.Intersects.Count == 2);
-        Assert.That(intersections.Intersects[0].Object.Equals(sphere));
-        Assert.That(intersections.Intersects[1].Object.Equals(sphere));
+        var intersect1 = new Intersect(sphere, 1);
+        var intersect2 = new Intersect(sphere, 2);
+        var intersections = new Intersections(intersect1, intersect2).Intersects;
+        Assert.That(intersections.Count == 2);
+        Assert.That(intersections[0].Object.Equals(sphere));
+        Assert.That(intersections[1].Object.Equals(sphere));
     }
 
     [Test]
     public void Hits()
     {
         var sphere = new Sphere();
-        var intersect1 = new Intersections.Intersect(sphere, 1);
-        var intersect2 = new Intersections.Intersect(sphere, 2);
+        var intersect1 = new Intersect(sphere, 1);
+        var intersect2 = new Intersect(sphere, 2);
         var intersections = new Intersections(intersect1, intersect2);
         Assert.That(Ray.Hit(intersections) == intersect1);
     }
@@ -109,8 +109,8 @@ public class RayTests
     public void Hits2()
     {
         var sphere = new Sphere();
-        var intersect1 = new Intersections.Intersect(sphere, -1);
-        var intersect2 = new Intersections.Intersect(sphere, 1);
+        var intersect1 = new Intersect(sphere, -1);
+        var intersect2 = new Intersect(sphere, 1);
         var intersections = new Intersections(intersect1, intersect2);
         Assert.That(Ray.Hit(intersections) == intersect2);
     }
@@ -119,8 +119,8 @@ public class RayTests
     public void Hits3()
     {
         var sphere = new Sphere();
-        var intersect1 = new Intersections.Intersect(sphere, -2);
-        var intersect2 = new Intersections.Intersect(sphere, -1);
+        var intersect1 = new Intersect(sphere, -2);
+        var intersect2 = new Intersect(sphere, -1);
         var intersections = new Intersections(intersect1, intersect2);
         Assert.That(Ray.Hit(intersections) == null);
     }
@@ -129,10 +129,10 @@ public class RayTests
     public void Hits4()
     {
         var sphere = new Sphere();
-        var intersect1 = new Intersections.Intersect(sphere, 5);
-        var intersect2 = new Intersections.Intersect(sphere, 7);
-        var intersect3 = new Intersections.Intersect(sphere, -3);
-        var intersect4 = new Intersections.Intersect(sphere, 2);
+        var intersect1 = new Intersect(sphere, 5);
+        var intersect2 = new Intersect(sphere, 7);
+        var intersect3 = new Intersect(sphere, -3);
+        var intersect4 = new Intersect(sphere, 2);
         var intersections = new Intersections([intersect1, intersect2, intersect3, intersect4]);
         Assert.That(Ray.Hit(intersections) == intersect4);
     }

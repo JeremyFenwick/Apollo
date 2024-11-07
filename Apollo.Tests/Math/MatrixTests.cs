@@ -323,4 +323,46 @@ public class MatrixTests
     {
         Assert.That(new Point(1, 0, 1).XRotate(System.Math.PI / 2).Scale(5, 5, 5).Translate(10, 5, 7) == new Point(15, 0, 7));
     }
+
+    [Test]
+    public void View()
+    {
+        var from = new Point(0, 0, 0);
+        var to = new Point(0, 0, -1);
+        var up = new Vector(0, 1, 0);
+        var viewT = Matrix.ViewTransform(from, to, up);
+        Assert.That(viewT == Matrix.Identity());
+    }
+    
+    [Test]
+    public void View2()
+    {
+        var from = new Point(0, 0, 0);
+        var to = new Point(0, 0, 1);
+        var up = new Vector(0, 1, 0);
+        var viewT = Matrix.ViewTransform(from, to, up);
+        Assert.That(viewT == Matrix.Scaling(-1, 1, -1));
+    }
+    
+    [Test]
+    public void View3()
+    {
+        var from = new Point(0, 0, 8);
+        var to = new Point(0, 0, 0);
+        var up = new Vector(0, 1, 0);
+        var viewT = Matrix.ViewTransform(from, to, up);
+        Assert.That(viewT == Matrix.Translation(0, 0, -8));
+    }
+    
+    [Test]
+    public void View4()
+    {
+        var from = new Point(1, 3, 2);
+        var to = new Point(4, -2, 8);
+        var up = new Vector(1, 1, 0);
+        var viewT = Matrix.ViewTransform(from, to, up);
+        Assert.That(System.Math.Abs(viewT.Get(0, 1) - 0.50709f) < 0.00001);
+        Assert.That(System.Math.Abs(viewT.Get(1, 2) - 0.12122f) < 0.00001);
+        Assert.That(System.Math.Abs(viewT.Get(2, 3) - 0) < 0.00001);
+    }
 }
