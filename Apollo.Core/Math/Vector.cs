@@ -4,9 +4,9 @@ namespace Apollo.Math;
 
 public class Vector : AbstractTuple
 {
-    public override float W { get; } = 0;
+    public override double W { get; } = 0;
 
-    public Vector(float x, float y, float z) : base(x, y, z)
+    public Vector(double x, double y, double z) : base(x, y, z)
     {
         W = 0;
     }

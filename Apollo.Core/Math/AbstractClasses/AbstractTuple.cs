@@ -2,13 +2,13 @@
 
 public class AbstractTuple
 {
-    public float X { get; }
-    public float Y { get; }
-    public float Z { get; }
-    public virtual float W { get; }
-    private const float Epsilon = 0.00001f;
+    public double X { get; }
+    public double Y { get; }
+    public double Z { get; }
+    public virtual double W { get; }
+    private const double Epsilon = 0.00001f;
 
-    protected AbstractTuple(float x, float y, float z)
+    protected AbstractTuple(double x, double y, double z)
     {
      (X, Y, Z, W) = (x, y, z, 0);
     }
@@ -89,29 +89,29 @@ public class AbstractTuple
         return new ATuple(-a.X, -a.Y, -a.Z, -a.W);
     }
     
-    public static AbstractTuple operator *(AbstractTuple a, float scalar)
+    public static AbstractTuple operator *(AbstractTuple a, double scalar)
     {
         return new ATuple(a.X * scalar, a.Y * scalar, a.Z * scalar, a.W * scalar);
     }
     
-    public static AbstractTuple operator *(float scalar, AbstractTuple a)
+    public static AbstractTuple operator *(double scalar, AbstractTuple a)
     {
         return new ATuple(a.X * scalar, a.Y * scalar, a.Z * scalar, a.W * scalar);
     }
     
-    public static AbstractTuple operator /(AbstractTuple a, float scalar)
+    public static AbstractTuple operator /(AbstractTuple a, double scalar)
     {
         return new ATuple(a.X / scalar, a.Y / scalar, a.Z / scalar, a.W / scalar);
     }
     
-    public static AbstractTuple operator /(float scalar, AbstractTuple a)
+    public static AbstractTuple operator /(double scalar, AbstractTuple a)
     {
         return new ATuple(a.X / scalar, a.Y / scalar, a.Z / scalar, a.W / scalar);
     }
     
-    public float Magnitude()
+    public double Magnitude()
     {
-        return (float) System.Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
+        return (double) System.Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
     }
     
     public AbstractTuple Normalize()
@@ -120,7 +120,7 @@ public class AbstractTuple
         return new ATuple(X / magnitude, Y / magnitude, Z / magnitude, W / magnitude);
     }
 
-    public float Dot(AbstractTuple b)
+    public double Dot(AbstractTuple b)
     {
         return X * b.X + Y * b.Y + Z * b.Z + W * b.W;
     }
@@ -130,13 +130,13 @@ public class AbstractTuple
         return new Vector(Y * b.Z - Z * b.Y, Z * b.X - X * b.Z, X * b.Y - Y * b.X);
     }
     
-    public AbstractTuple Translate(float x, float y, float z)
+    public AbstractTuple Translate(double x, double y, double z)
     {
         var tMatrix = Matrix.Translation(x, y, z);
         return this * tMatrix;
     }
     
-    public AbstractTuple Scale(float x, float y, float z)
+    public AbstractTuple Scale(double x, double y, double z)
     {
         var sMatrix = Matrix.Scaling(x, y, z);
         return this * sMatrix;
@@ -160,7 +160,7 @@ public class AbstractTuple
         return this * zMatrix;
     }
     
-    public AbstractTuple Shear(float xy, float xz, float yx, float yz, float zx, float zy)
+    public AbstractTuple Shear(double xy, double xz, double yx, double yz, double zx, double zy)
     {
         var sMatrix = Matrix.Shear(xy, xz, yx, yz, zx, zy);
         return this * sMatrix;

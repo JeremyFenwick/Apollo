@@ -4,11 +4,11 @@ namespace Apollo.Display;
 
 public class Colour : AbstractColour
 {
-    public override float R { get; }
-    public override float G { get; }
-    public override float B { get; }
+    public override double R { get; }
+    public override double G { get; }
+    public override double B { get; }
     
-    public Colour(float red, float green, float blue)
+    public Colour(double red, double green, double blue)
     {
         (R, G, B) = (red, green, blue);
     }

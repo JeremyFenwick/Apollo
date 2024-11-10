@@ -60,11 +60,11 @@ public class Canvas
             for (var col = 0; col < _columns; col++)
             {
                 var colour = _pixels[col, row];
-                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.R) * 255));
+                builder.Append(System.Math.Ceiling(NormalizedDouble(colour.R) * 255));
                 builder.Append(' ');
-                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.G) * 255));
+                builder.Append(System.Math.Ceiling(NormalizedDouble(colour.G) * 255));
                 builder.Append(' ');
-                builder.Append(System.Math.Ceiling(NormalizeFloat(colour.B) * 255));
+                builder.Append(System.Math.Ceiling(NormalizedDouble(colour.B) * 255));
                 builder.Append(' ');
                 // Add a newline every 5th column, only if the number of columns is greater than 5
                 if ((col + 1) % 5 == 0 && _columns > 5)
@@ -78,7 +78,7 @@ public class Canvas
         return builder.ToString();
     }
     
-    private static float NormalizeFloat(float value)
+    private static double NormalizedDouble(double value)
     {
         return value switch
         {

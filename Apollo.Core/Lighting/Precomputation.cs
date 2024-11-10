@@ -5,7 +5,7 @@ namespace Apollo.Lighting;
 
 public class Precomputation
 {
-    public float Time { get; }
+    public double Time { get; }
     public GeometricObject Object { get; }
     public AbstractTuple Point { get; }
     public AbstractTuple OverPoint { get; }
@@ -13,7 +13,7 @@ public class Precomputation
     public AbstractTuple NormalV { get; }
     public bool Inside { get; }
 
-    public Precomputation(float time, GeometricObject item, AbstractTuple point, AbstractTuple overPoint, AbstractTuple eyev,
+    public Precomputation(double time, GeometricObject item, AbstractTuple point, AbstractTuple overPoint, AbstractTuple eyev,
         AbstractTuple normalV, bool inside)
     {
         (Time, Object, Point, OverPoint, EyeV, NormalV, Inside) = (time, item, point, overPoint, eyev, normalV, inside);

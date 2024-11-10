@@ -4,9 +4,9 @@ namespace Apollo.Math;
 
 public class ATuple : AbstractTuple
 {
-    public override float W { get; }
+    public override double W { get; }
     
-    public ATuple(float x, float y, float z, float w) : base(x, y, z)
+    public ATuple(double x, double y, double z, double w) : base(x, y, z)
     {
         W = w;
     }

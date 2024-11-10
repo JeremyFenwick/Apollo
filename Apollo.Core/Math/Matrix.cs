@@ -5,14 +5,14 @@ namespace Apollo.Math;
 
 public class Matrix
 {
-    private readonly float[,] _data;
+    private readonly double[,] _data;
     public int Size { get; }
-    private const float Epsilon = 0.00001f;
+    private const double Epsilon = 0.00001;
 
-    public Matrix(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31,
-        float m32, float m33, float m34, float m41, float m42, float m43, float m44)
+    public Matrix(double m11, double m12, double m13, double m14, double m21, double m22, double m23, double m24, double m31,
+        double m32, double m33, double m34, double m41, double m42, double m43, double m44)
     {
-        _data = new float[4, 4];
+        _data = new double[4, 4];
         _data[0, 0] = m11;
         _data[0, 1] = m12;
         _data[0, 2] = m13;
@@ -32,9 +32,9 @@ public class Matrix
         Size = _data.GetLength(0);
     }
     
-    public Matrix(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33)
+    public Matrix(double m11, double m12, double m13, double m21, double m22, double m23, double m31, double m32, double m33)
     {
-        _data = new float[3, 3];
+        _data = new double[3, 3];
         _data[0, 0] = m11;
         _data[0, 1] = m12;
         _data[0, 2] = m13;
@@ -47,9 +47,9 @@ public class Matrix
         Size = _data.GetLength(0);
     }
     
-    public Matrix(float m11, float m12, float m21, float m22)
+    public Matrix(double m11, double m12, double m21, double m22)
     {
-        _data = new float[2, 2];
+        _data = new double[2, 2];
         _data[0, 0] = m11;
         _data[0, 1] = m12;
         _data[1, 0] = m21;
@@ -57,13 +57,13 @@ public class Matrix
         Size = _data.GetLength(0);
     }
     
-    public Matrix(float[,] matrix)
+    public Matrix(double[,] matrix)
     {
         _data = matrix;
         Size = _data.GetLength(0);
     }
     
-    public float Get(int row, int column)
+    public double Get(int row, int column)
     {
         return _data[row, column];
     }
@@ -117,7 +117,7 @@ public class Matrix
         {
             throw new Exception("Matrix multiplication only implemented for 4x4 matrices!");
         }
-        var result = new float[4, 4];
+        var result = new double[4, 4];
         for (int row = 0; row < 4; row++)
         {
             for (int col = 0; col < 4; col++)
@@ -163,7 +163,7 @@ public class Matrix
     /// </summary>
     public static Matrix Identity()
     {
-        var result = new float[4, 4];
+        var result = new double[4, 4];
         result[0, 0] = 1;
         result[1, 1] = 1;
         result[2, 2] = 1;
@@ -177,7 +177,7 @@ public class Matrix
     /// </summary>
     public Matrix Transpose()
     {
-        var result = new float[Size, Size];
+        var result = new double[Size, Size];
         for (int row = 0; row < Size; row++)
         {
             for (int col = 0; col < Size; col++)
@@ -194,7 +194,7 @@ public class Matrix
     /// </summary>
     public Matrix SubMatrix( int removeRow, int removeCol)
     {
-        var result = new float[Size - 1, Size - 1];
+        var result = new double[Size - 1, Size - 1];
         var rowAdded = 0;
         var colAdded = 0;
         for (int row = 0; row < Size; row++)
@@ -219,7 +219,7 @@ public class Matrix
     /// Returns minor of a matrix. The minor is the determinant of a smaller sub matrix given a row and column to remove.
     /// https://en.wikipedia.org/wiki/Minor_(linear_algebra)
     /// </summary>
-    public float Minor(int row, int col)
+    public double Minor(int row, int col)
     {
         var subMatrix = this.SubMatrix(row, col);
         return subMatrix.Determinant();
@@ -229,7 +229,7 @@ public class Matrix
     /// Returns the cofactor (signed minor) of a matrix given a row and column to remove.
     /// https://en.wikipedia.org/wiki/Minor_(linear_algebra)
     /// </summary>
-    public float Cofactor(int row, int col)
+    public double Cofactor(int row, int col)
     {
         var subMatrix = this.SubMatrix(row, col);
         var determinant = subMatrix.Determinant();
@@ -248,9 +248,9 @@ public class Matrix
     /// Returns the determinant of a matrix.
     /// https://en.wikipedia.org/wiki/Determinant
     /// </summary>
-    public float Determinant()
+    public double Determinant()
     {
-        var det = 0f;
+        double det = 0;
         if (Size == 2)
         {
             det = (_data[0, 0] * _data[1, 1]) - (_data[0, 1] * _data[1, 0]);
@@ -269,7 +269,7 @@ public class Matrix
     public Matrix Inverse()
     {
         var det = this.Determinant();
-        var result = new float[Size, Size];
+        var result = new double[Size, Size];
         if (det == 0)
         {
             throw new Exception("Attempting to invert a non-invertible matrix!");
@@ -291,9 +291,9 @@ public class Matrix
         return this.Determinant() != 0;
     }
 
-    public static Matrix Translation(float x, float y, float z)
+    public static Matrix Translation(double x, double y, double z)
     {
-        var result = new float[4, 4];
+        var result = new double[4, 4];
         result[0, 0] = 1;
         result[1, 1] = 1;
         result[2, 2] = 1;
@@ -304,9 +304,9 @@ public class Matrix
         return new Matrix(result);
     }
     
-    public static Matrix Scaling(float x, float y, float z)
+    public static Matrix Scaling(double x, double y, double z)
     {
-        var result = new float[4, 4];
+        var result = new double[4, 4];
         result[0, 0] = x;
         result[1, 1] = y;
         result[2, 2] = z;
@@ -316,43 +316,43 @@ public class Matrix
 
     public static Matrix XRotation(double radians)
     {
-        var result = new float[4, 4];
+        var result = new double[4, 4];
         result[0, 0] = 1;
-        result[1, 1] = (float) System.Math.Cos(radians);
-        result[1, 2] = (float) - System.Math.Sin(radians);
-        result[2, 1] = (float) System.Math.Sin(radians);
-        result[2, 2] = (float) System.Math.Cos(radians);
+        result[1, 1] = (double) System.Math.Cos(radians);
+        result[1, 2] = (double) - System.Math.Sin(radians);
+        result[2, 1] = (double) System.Math.Sin(radians);
+        result[2, 2] = (double) System.Math.Cos(radians);
         result[3, 3] = 1;
         return new Matrix(result);
     }
     
     public static Matrix YRotation(double radians)
     {
-        var result = new float[4, 4];
-        result[0, 0] = (float) System.Math.Cos(radians);;
-        result[0, 2] = (float) System.Math.Sin(radians);
+        var result = new double[4, 4];
+        result[0, 0] = (double) System.Math.Cos(radians);;
+        result[0, 2] = (double) System.Math.Sin(radians);
         result[1, 1] = 1;
-        result[2, 0] = (float) - System.Math.Sin(radians);
-        result[2, 2] = (float) System.Math.Cos(radians);
+        result[2, 0] = (double) - System.Math.Sin(radians);
+        result[2, 2] = (double) System.Math.Cos(radians);
         result[3, 3] = 1;
         return new Matrix(result);
     }
 
     public static Matrix ZRotation(double radians)
     {
-        var result = new float[4, 4];
-        result[0, 0] = (float) System.Math.Cos(radians);
-        result[0, 1] = (float) - System.Math.Sin(radians);
-        result[1, 0] = (float) System.Math.Sin(radians);
-        result[1, 1] = (float) System.Math.Cos(radians);
+        var result = new double[4, 4];
+        result[0, 0] = (double) System.Math.Cos(radians);
+        result[0, 1] = (double) - System.Math.Sin(radians);
+        result[1, 0] = (double) System.Math.Sin(radians);
+        result[1, 1] = (double) System.Math.Cos(radians);
         result[2, 2] = 1;
         result[3, 3] = 1;
         return new Matrix(result);
     }
 
-    public static Matrix Shear(float xy, float xz, float yx, float yz, float zx, float zy)
+    public static Matrix Shear(double xy, double xz, double yx, double yz, double zx, double zy)
     {
-        var result = new float[4, 4];
+        var result = new double[4, 4];
         result[0, 0] = 1;
         result[0, 1] = xy;
         result[0, 2] = xz;
@@ -368,7 +368,7 @@ public class Matrix
 
     public static Matrix ViewTransform(AbstractTuple from, AbstractTuple to, AbstractTuple up)
     {
-        var result = new float[4, 4];
+        var result = new double[4, 4];
         var forward = (to - from).Normalize();
         var upN = up.Normalize();
         var left = forward.Cross(upN);

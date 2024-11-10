@@ -5,9 +5,9 @@ namespace Apollo.Lighting;
 public class Intersect : IComparable<Intersect>
 {
     public GeometricObject Object { get; }
-    public float Time { get; }
+    public double Time { get; }
 
-    public Intersect(GeometricObject obj, float time)
+    public Intersect(GeometricObject obj, double time)
     {
         (Object, Time) = (obj, time);
     }

@@ -1,5 +1,4 @@
-﻿using Apollo.Display;
-using Apollo.Display.AbstractClasses;
+﻿using Apollo.Display.AbstractClasses;
 using Apollo.Display.ColourPresets;
 using Apollo.Geometry;
 using Apollo.Geometry.Interfaces;
@@ -12,13 +11,14 @@ public class Ray
 {
     public AbstractTuple Origin { get; }
     public AbstractTuple Direction { get; }
+    private const double Epsilon = 0.00001;
 
     public Ray(AbstractTuple origin, AbstractTuple direction)
     {
         (Origin, Direction) = (origin, direction);
     }
 
-    public Point Position(float time)
+    public Point Position(double time)
     {
         return new Point(Origin + (Direction * time));
     }
@@ -41,8 +41,8 @@ public class Ray
         }
         else
         {
-            var t1 = (float) (-b - System.Math.Sqrt(discriminant)) / (2 * a);
-            var t2 = (float) (-b + System.Math.Sqrt(discriminant)) / (2 * a);
+            var t1 = (double) (-b - System.Math.Sqrt(discriminant)) / (2 * a);
+            var t2 = (double) (-b + System.Math.Sqrt(discriminant)) / (2 * a);
             return new Intersections(new Intersect(item, t1), new Intersect(item, t2));
         }
     }
@@ -69,13 +69,13 @@ public class Ray
         return intersections.Intersects.FirstOrDefault(item => item.Time >= 0);
     }
     
-    public Ray Translate(float x, float y, float z)
+    public Ray Translate(double x, double y, double z)
     {
         var tMatrix = Matrix.Translation(x, y, z);
         return new Ray(Origin * tMatrix,Direction * tMatrix);
     }
     
-    public Ray Scale(float x, float y, float z)
+    public Ray Scale(double x, double y, double z)
     {
         var sMatrix = Matrix.Scaling(x, y, z);
         return new Ray(Origin * sMatrix,Direction * sMatrix);
@@ -99,7 +99,7 @@ public class Ray
         return new Ray(Origin * zMatrix,Direction * zMatrix);
     }
     //
-    public Ray Shear(float xy, float xz, float yx, float yz, float zx, float zy)
+    public Ray Shear(double xy, double xz, double yx, double yz, double zx, double zy)
     {
         var sMatrix = Matrix.Shear(xy, xz, yx, yz, zx, zy);
         return new Ray(Origin * sMatrix,Direction * sMatrix);
@@ -118,7 +118,7 @@ public class Ray
             inside = true;
         }
 
-        var overPoint = point + normalV * 0.001f;
+        var overPoint = point + normalV * Epsilon;
 
         return new Precomputation(intersect.Time, intersect.Object, point, overPoint, eyeV, normalV, inside);
     }
