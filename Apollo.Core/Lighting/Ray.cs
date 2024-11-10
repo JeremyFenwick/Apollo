@@ -118,7 +118,9 @@ public class Ray
             inside = true;
         }
 
-        return new Precomputation(intersect.Time, intersect.Object, point, eyeV, normalV, inside);
+        var overPoint = point + normalV * 0.001f;
+
+        return new Precomputation(intersect.Time, intersect.Object, point, overPoint, eyeV, normalV, inside);
     }
 
     public AbstractColour ColourAt(World world)
@@ -130,7 +132,8 @@ public class Ray
             return new Black();
         }
         var comp = Precompute(hit);
-        var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.Point, comp.EyeV, comp.NormalV);
+        var shadowed = world.IsShadowed(comp.OverPoint);
+        var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.OverPoint, comp.EyeV, comp.NormalV, shadowed);
         return shadeHit;
     }
 }

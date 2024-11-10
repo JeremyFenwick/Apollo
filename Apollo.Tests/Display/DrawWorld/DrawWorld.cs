@@ -16,7 +16,7 @@ public class DrawWorld
         var floor = new Sphere();
         floor.Transform = Matrix.Scaling(10, 0.01f, 10);
         floor.Material = new Material();
-        floor.Material.Colour = new Colour(1f, 0.9f, 0.9f);
+        floor.Material.Colour = new Colour(0f, 0.2f, 0.4f);
         floor.Material.Specular = 0;
         // // Sphere two (left wall)
         var leftWall = new Sphere();
@@ -36,21 +36,21 @@ public class DrawWorld
         var middle = new Sphere();
         middle.Transform = Matrix.Translation(-0.5f, 1, 0.5f);
         middle.Material = new Material();
-        middle.Material.Colour = new Colour(0.6f, 0.8f, 0);
+        middle.Material.Colour = new Colour(1f, 1f, .6f);
         middle.Material.Diffuse = 0.7f;
-        middle.Material.Specular = 0.3f;
+        middle.Material.Specular = 0.7f;
         // Sphere five (right sphere)
         var right = new Sphere();
         right.Transform = Matrix.Translation(1.5f, 0.5f, -0.5f) * Matrix.Scaling(0.5f, 0.5f, 0.5f);
         right.Material = new Material();
-        right.Material.Colour = new Colour(1, 0.4f, 0);
+        right.Material.Colour = new Colour(1, 0.6f, 0.8f);
         right.Material.Diffuse = 0.7f;
         right.Material.Specular = 0.3f;
         // Sphere six (left sphere)
         var left = new Sphere();
         left.Transform = Matrix.Translation(-1.5f, 0.33f, -0.75f) * Matrix.Scaling(0.33f, 0.33f, 0.33f);
         left.Material = new Material();
-        left.Material.Colour = new Colour(0.4f, 0.4f, 0.6f);
+        left.Material.Colour = new Colour(.8f, 0.6f, 1f);
         left.Material.Diffuse = 0.7f;
         left.Material.Specular = 0.3f;
         // Setup world
@@ -58,7 +58,7 @@ public class DrawWorld
         var light = new PointLight(new Point(-10, 10, -10), new White());
         var world = new World(spheres, light);
         // Setup camera
-        var camera = new Camera(1200, 800, System.Math.PI / 3);
+        var camera = new Camera(1200, 600, System.Math.PI / 3);
         camera.Transform = Matrix.ViewTransform(new Point(0, 1.5f, -5), new Point(0, 1, 0), new Vector(0, 1, 0));
         // Render the result
         var photo = camera.Render(world);

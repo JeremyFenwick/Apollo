@@ -9,13 +9,18 @@ namespace Apollo.Lighting;
 public static class Shading
 {
     public static AbstractColour Lighting(Material material, ILight light, AbstractTuple point, AbstractTuple eyeV,
-        AbstractTuple normalV)
+        AbstractTuple normalV, bool inShadow)
     {
         AbstractColour ambient, diffuse, specular;
         
         var effectiveColour = material.Colour * light.Intensity;
         var lightV = (light.Position - point).Normalize();
         ambient = effectiveColour * material.Ambient;
+
+        if (inShadow)
+        {
+            return ambient;
+        }
         
         var lightDotNormal = lightV.Dot(normalV);
         if (lightDotNormal < 0)

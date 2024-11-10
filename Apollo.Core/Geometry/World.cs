@@ -4,6 +4,7 @@ using Apollo.Geometry.Interfaces;
 using Apollo.Lighting;
 using Apollo.Lighting.Interfaces;
 using Apollo.Math;
+using Apollo.Math.AbstractClasses;
 
 namespace Apollo.Geometry;
 
@@ -25,5 +26,18 @@ public class World
         var s2 = new Sphere();
         s2.Transform = Matrix.Scaling(0.5f, 0.5f, 0.5f);
         return new World(new List<GeometricObject>() { s1, s2 }, light);
+    }
+
+    public bool IsShadowed(AbstractTuple point)
+    {
+        var v = LightSource.Position - point;
+        var distance = v.Magnitude();
+        var direction = v.Normalize();
+        
+        var ray = new Ray(point, direction);
+        var intersections = ray.WorldIntersect(this);
+        var hit = Ray.Hit(intersections);
+        
+        return hit != null && hit.Time < distance;
     }
 }
