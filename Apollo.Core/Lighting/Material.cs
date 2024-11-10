@@ -6,11 +6,11 @@ namespace Apollo.Lighting;
 
 public class Material
 {
-    public AbstractColour Colour { get; }
-    public float Ambient { get; }
-    public float Diffuse { get; }
-    public float Specular { get; }
-    public float Shininess { get; }
+    public AbstractColour Colour { get; set; }
+    public float Ambient { get; set; }
+    public float Diffuse { get; set; }
+    public float Specular { get; set; }
+    public float Shininess { get; set; }
 
     public Material(AbstractColour colour, float ambient, float diffuse, float specular, float shininess)
     {
