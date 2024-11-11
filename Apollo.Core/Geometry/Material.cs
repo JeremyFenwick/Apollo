@@ -1,8 +1,7 @@
-﻿using Apollo.Display;
-using Apollo.Display.AbstractClasses;
+﻿using Apollo.Display.AbstractClasses;
 using Apollo.Display.ColourPresets;
 
-namespace Apollo.Lighting;
+namespace Apollo.Geometry;
 
 public class Material
 {

@@ -31,7 +31,8 @@ public class RayTests
     public void Intersection()
     {
         var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
-        var result = ray.Intersect(new Sphere());
+        var sphere = new Sphere();
+        var result = sphere.Intersect(ray);
         Assert.That(result.Intersects.Count == 2);
         Assert.That(System.Math.Abs(result.Intersects[0].Time - 4.0) < 0.00001);
         Assert.That(System.Math.Abs(result.Intersects[1].Time - 6.0) < 0.00001);
@@ -41,7 +42,8 @@ public class RayTests
     public void Intersection2()
     {
         var ray = new Ray(new Point(0, 1, -5), new Vector(0, 0, 1));
-        var result = ray.Intersect(new Sphere());
+        var sphere = new Sphere();
+        var result = sphere.Intersect(ray);
         Assert.That(result.Intersects.Count == 2);
         Assert.That(System.Math.Abs(result.Intersects[0].Time - 5.0) < 0.00001);
         Assert.That(System.Math.Abs(result.Intersects[1].Time - 5.0) < 0.00001);
@@ -51,7 +53,8 @@ public class RayTests
     public void Intersection3()
     {
         var ray = new Ray(new Point(0, 2, -5), new Vector(0, 0, 1));
-        var result = ray.Intersect(new Sphere());
+        var sphere = new Sphere();
+        var result = sphere.Intersect(ray);        
         Assert.That(result.Intersects.Count == 0);
     }
     
@@ -59,7 +62,8 @@ public class RayTests
     public void Intersection4()
     {
         var ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
-        var result = ray.Intersect(new Sphere());
+        var sphere = new Sphere();
+        var result = sphere.Intersect(ray);
         Assert.That(result.Intersects.Count == 2);
         Assert.That(System.Math.Abs(result.Intersects[0].Time - (- 1.0)) < 0.00001);
         Assert.That(System.Math.Abs(result.Intersects[1].Time - 1.0) < 0.00001);
@@ -69,7 +73,8 @@ public class RayTests
     public void Intersection5()
     {
         var ray = new Ray(new Point(0, 0, 5), new Vector(0, 0, 1));
-        var result = ray.Intersect(new Sphere());
+        var sphere = new Sphere();
+        var result = sphere.Intersect(ray);
         Assert.That(result.Intersects.Count == 2);
         Assert.That(System.Math.Abs(result.Intersects[0].Time  - (- 6.0)) < 0.00001);
         Assert.That(System.Math.Abs(result.Intersects[1].Time  - (- 4.0)) < 0.00001);

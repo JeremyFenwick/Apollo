@@ -1,6 +1,7 @@
 ﻿using Apollo.Display;
 using Apollo.Display.AbstractClasses;
 using Apollo.Display.ColourPresets;
+using Apollo.Geometry;
 using Apollo.Lighting.Interfaces;
 using Apollo.Math.AbstractClasses;
 

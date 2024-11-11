@@ -54,7 +54,7 @@ public class DrawWorld
         left.Material.Diffuse = 0.7f;
         left.Material.Specular = 0.3f;
         // Setup world
-        var spheres = new List<GeometricObject>() { floor, leftWall, rightWall, middle, right, left };
+        var spheres = new List<IShape>() { floor, leftWall, rightWall, middle, right, left };
         var light = new PointLight(new Point(-10, 10, -10), new White());
         var world = new World(spheres, light);
         // Setup camera

@@ -23,36 +23,12 @@ public class Ray
         return new Point(Origin + (Direction * time));
     }
 
-    public Intersections Intersect(GeometricObject item)
-    {
-        var tOrigin = Origin * item.Transform.Inverse();
-        var tDirection = Direction * item.Transform.Inverse();
-        
-        var sphereToRay = tOrigin - new Point(0, 0, 0);
-        
-        var a = tDirection.Dot(tDirection);
-        var b = 2 * tDirection.Dot(sphereToRay);
-        var c = sphereToRay.Dot(sphereToRay) - 1;
-        
-        var discriminant = b * b - 4 * a * c;
-        if (discriminant < 0)
-        {
-            return new Intersections();
-        }
-        else
-        {
-            var t1 = (double) (-b - System.Math.Sqrt(discriminant)) / (2 * a);
-            var t2 = (double) (-b + System.Math.Sqrt(discriminant)) / (2 * a);
-            return new Intersections(new Intersect(item, t1), new Intersect(item, t2));
-        }
-    }
-
     public Intersections WorldIntersect(World world)
     {
         var result = new Intersections();
         foreach (var item in world.Contents)
         {
-            var intersects = Intersect(item);
+            var intersects = item.Intersect(this);
             foreach (var intersection in intersects.Intersects)
             {
                 result.Intersects.Add(intersection);
@@ -98,7 +74,7 @@ public class Ray
         var zMatrix = Matrix.ZRotation(radians);
         return new Ray(Origin * zMatrix,Direction * zMatrix);
     }
-    //
+    
     public Ray Shear(double xy, double xz, double yx, double yz, double zx, double zy)
     {
         var sMatrix = Matrix.Shear(xy, xz, yx, yz, zx, zy);

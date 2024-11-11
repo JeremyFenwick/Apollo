@@ -10,10 +10,10 @@ namespace Apollo.Geometry;
 
 public class World
 {
-    public List<GeometricObject> Contents { get; }
+    public List<IShape> Contents { get; }
     public ILight LightSource { get; }
 
-    public World(List<GeometricObject> contents, ILight lightSource)
+    public World(List<IShape> contents, ILight lightSource)
     {
         (Contents, LightSource) = (contents, lightSource);
     }
@@ -25,7 +25,7 @@ public class World
         s1.Material = new Material(new Colour(0.8f, 1.0f, 0.6f), 0.1f, 0.7f, 0.2f, 200f);
         var s2 = new Sphere();
         s2.Transform = Matrix.Scaling(0.5f, 0.5f, 0.5f);
-        return new World(new List<GeometricObject>() { s1, s2 }, light);
+        return new World(new List<IShape>() { s1, s2 }, light);
     }
 
     public bool IsShadowed(AbstractTuple point)

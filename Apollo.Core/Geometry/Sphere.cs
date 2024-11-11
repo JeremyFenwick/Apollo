@@ -5,7 +5,7 @@ using Apollo.Math.AbstractClasses;
 
 namespace Apollo.Geometry;
 
-public class Sphere : GeometricObject
+public class Sphere : IShape
 {
     public Matrix Transform { get; set; }
     public Material Material { get; set; }
@@ -24,5 +24,28 @@ public class Sphere : GeometricObject
         var vector = new Vector(worldNormal).Normalize();
         return vector;
     }
-
+    
+    public Intersections Intersect(Ray ray)
+    {
+        var tOrigin = ray.Origin * Transform.Inverse();
+        var tDirection = ray.Direction * Transform.Inverse();
+        
+        var sphereToRay = tOrigin - new Point(0, 0, 0);
+        
+        var a = tDirection.Dot(tDirection);
+        var b = 2 * tDirection.Dot(sphereToRay);
+        var c = sphereToRay.Dot(sphereToRay) - 1;
+        
+        var discriminant = b * b - 4 * a * c;
+        if (discriminant < 0)
+        {
+            return new Intersections();
+        }
+        else
+        {
+            var t1 = (double) (-b - System.Math.Sqrt(discriminant)) / (2 * a);
+            var t2 = (double) (-b + System.Math.Sqrt(discriminant)) / (2 * a);
+            return new Intersections(new Intersect(this, t1), new Intersect(this, t2));
+        }
+    }
 }
