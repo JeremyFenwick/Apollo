@@ -20,14 +20,8 @@ An experimental Ray Tracer built on the .NET platform.
 
 ![Shaders](./Outputs/Shader/RenderedSphere.jpg)
 
-### Camera System
+### Shadows & Patterns
 
-![Shaders](./Outputs/Shader/WorldRender.jpg)
+![Shaders](./Outputs/Patterns/Stripes.jpg)
 
-### Shadows
 
-![Shaders](./Outputs/Shadows/ShadowWorld.jpg)
-
-### Planes
-
-![Shaders](./Outputs/Planes/GolfBall.jpg)

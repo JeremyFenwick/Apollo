@@ -90,7 +90,7 @@ public class ShadingTests
         var eyeV = new Vector(0, 0, -1);
         var normalV = new Vector(0, 0, -1);
         var light = new PointLight(new Point(0, 0, -10), new White());
-        var result = Shading.Lighting(material, light, position, eyeV, normalV, false);
+        var result = Shading.Lighting(material, light, position, eyeV, normalV, false, new Sphere());
         Assert.That(result == new Colour(1.9f, 1.9f, 1.9f));
     }
     
@@ -103,7 +103,7 @@ public class ShadingTests
         var eyeV = new Vector(0, elem, -elem);
         var normalV = new Vector(0, 0, -1);
         var light = new PointLight(new Point(0, 0, -10), new White());
-        var result = Shading.Lighting(material, light, position, eyeV, normalV, false);
+        var result = Shading.Lighting(material, light, position, eyeV, normalV, false, new Sphere());
         Assert.That(result == new Colour(1f, 1f, 1f));
     }
     
@@ -116,7 +116,7 @@ public class ShadingTests
         var eyeV = new Vector(0, 0, -1);
         var normalV = new Vector(0, 0, -1);
         var light = new PointLight(new Point(0, 10, -10), new White());
-        var result = Shading.Lighting(material, light, position, eyeV, normalV, false);
+        var result = Shading.Lighting(material, light, position, eyeV, normalV, false, new Sphere());
         Assert.That(result == new Colour(elem, elem, elem));
     }
     
@@ -130,7 +130,7 @@ public class ShadingTests
         var eyeV = new Vector(0, -elem2, -elem2);
         var normalV = new Vector(0, 0, -1);
         var light = new PointLight(new Point(0, 10, -10), new White());
-        var result = Shading.Lighting(material, light, position, eyeV, normalV, false);
+        var result = Shading.Lighting(material, light, position, eyeV, normalV, false, new Sphere());
         Assert.That(result == new Colour(elem, elem, elem));
     }
     
@@ -142,7 +142,7 @@ public class ShadingTests
         var eyeV = new Vector(0, 0, -1);
         var normalV = new Vector(0, 0, -1);
         var light = new PointLight(new Point(0, 0, 10), new White());
-        var result = Shading.Lighting(material, light, position, eyeV, normalV, false);
+        var result = Shading.Lighting(material, light, position, eyeV, normalV, false, new Sphere());
         Assert.That(result == new Colour(0.1f, 0.1f, 0.1f));
     }
 
@@ -154,7 +154,7 @@ public class ShadingTests
         var eyeV = new Vector(0, 0, -1);
         var normalV = new Vector(0, 0, -1);
         var light = new PointLight(new Point(0, 0, 10), new White());
-        var result = Shading.Lighting(material, light, position, eyeV, normalV, true);
+        var result = Shading.Lighting(material, light, position, eyeV, normalV, true, new Sphere());
         Assert.That(result == new Colour(0.1f, 0.1f, 0.1f));
     }
 }

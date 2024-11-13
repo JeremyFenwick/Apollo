@@ -1,4 +1,5 @@
-﻿using Apollo.Geometry.Interfaces;
+﻿using Apollo.Display.AbstractClasses;
+using Apollo.Geometry.Interfaces;
 using Apollo.Lighting;
 using Apollo.Math;
 using Apollo.Math.AbstractClasses;
@@ -36,5 +37,13 @@ public class Plane : IShape
             var t = -tOrigin.Y / tDirection.Y;
             return new Intersections(new Intersect(this, t));
         }
+    }
+    
+    public AbstractColour ColourAt(AbstractTuple p)
+    {
+        if (Material.Pattern == null) { return Material.Colour; }
+        var objectPoint = Transform.Inverse() * p;
+        var patternPoint = Material.Pattern.Transform.Inverse() * objectPoint;
+        return Material.Pattern.ColourAt(patternPoint);
     }
 }

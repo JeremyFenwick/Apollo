@@ -1,4 +1,6 @@
-﻿using Apollo.Geometry.Interfaces;
+﻿using Apollo.Display;
+using Apollo.Display.AbstractClasses;
+using Apollo.Geometry.Interfaces;
 using Apollo.Lighting;
 using Apollo.Math;
 using Apollo.Math.AbstractClasses;
@@ -7,6 +9,7 @@ namespace Apollo.Geometry;
 
 public class Sphere : IShape
 {
+    private IShape _shapeImplementation;
     public Matrix Transform { get; set; }
     public Material Material { get; set; }
 
@@ -47,5 +50,13 @@ public class Sphere : IShape
             var t2 = (double) (-b + System.Math.Sqrt(discriminant)) / (2 * a);
             return new Intersections(new Intersect(this, t1), new Intersect(this, t2));
         }
+    }
+
+    public AbstractColour ColourAt(AbstractTuple p)
+    {
+        if (Material.Pattern == null) { return Material.Colour; }
+        var objectPoint = Transform.Inverse() * p;
+        var patternPoint = Material.Pattern.Transform.Inverse() * objectPoint;
+        return Material.Pattern.ColourAt(patternPoint);
     }
 }

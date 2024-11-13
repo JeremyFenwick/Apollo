@@ -109,7 +109,7 @@ public class Ray
         }
         var comp = Precompute(hit);
         var shadowed = world.IsShadowed(comp.OverPoint);
-        var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.OverPoint, comp.EyeV, comp.NormalV, shadowed);
+        var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.OverPoint, comp.EyeV, comp.NormalV, shadowed, hit.Object);
         return shadeHit;
     }
 }

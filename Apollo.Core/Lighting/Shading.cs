@@ -2,6 +2,7 @@
 using Apollo.Display.AbstractClasses;
 using Apollo.Display.ColourPresets;
 using Apollo.Geometry;
+using Apollo.Geometry.Interfaces;
 using Apollo.Lighting.Interfaces;
 using Apollo.Math.AbstractClasses;
 
@@ -9,12 +10,12 @@ namespace Apollo.Lighting;
 
 public static class Shading
 {
-    public static AbstractColour Lighting(Material material, ILight light, AbstractTuple point, AbstractTuple eyeV,
-        AbstractTuple normalV, bool inShadow)
+    public static AbstractColour Lighting(Material material, ILight light, AbstractTuple point, AbstractTuple eyeV, AbstractTuple normalV, bool inShadow, IShape shape)
     {
-        AbstractColour ambient, diffuse, specular;
+        AbstractColour ambient, diffuse, specular, colour;
+        colour = shape.ColourAt(point);
         
-        var effectiveColour = material.Colour * light.Intensity;
+        var effectiveColour = colour * light.Intensity;
         var lightV = (light.Position - point).Normalize();
         ambient = effectiveColour * material.Ambient;
 

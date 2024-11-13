@@ -1,4 +1,5 @@
-﻿using Apollo.Lighting;
+﻿using Apollo.Display.AbstractClasses;
+using Apollo.Lighting;
 using Apollo.Math;
 using Apollo.Math.AbstractClasses;
 
@@ -10,4 +11,5 @@ public interface IShape
     public Matrix Transform { get; set; }
     public AbstractTuple NormalAt(Point p);
     public Intersections Intersect(Ray ray);
+    public AbstractColour ColourAt(AbstractTuple p);
 }

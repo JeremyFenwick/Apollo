@@ -1,5 +1,6 @@
 ﻿using Apollo.Display.AbstractClasses;
 using Apollo.Display.ColourPresets;
+using Apollo.Geometry.Interfaces;
 
 namespace Apollo.Geometry;
 
@@ -10,6 +11,7 @@ public class Material
     public double Diffuse { get; set; }
     public double Specular { get; set; }
     public double Shininess { get; set; }
+    public IPattern? Pattern { get; set; }
 
     public Material(AbstractColour colour, double ambient, double diffuse, double specular, double shininess)
     {
