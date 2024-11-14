@@ -22,7 +22,7 @@ public class World
     {
         var light = new PointLight(new Point(-10, 10, -10), new White());
         var s1 = new Sphere();
-        s1.Material = new Material(new Colour(0.8f, 1.0f, 0.6f), 0.1f, 0.7f, 0.2f, 200f);
+        s1.Material = new Material(new Colour(0.8f, 1.0f, 0.6f), 0.1f, 0.7f, 0.2f, 200f, 0);
         var s2 = new Sphere();
         s2.Transform = Matrix.Scaling(0.5f, 0.5f, 0.5f);
         return new World(new List<IShape>() { s1, s2 }, light);

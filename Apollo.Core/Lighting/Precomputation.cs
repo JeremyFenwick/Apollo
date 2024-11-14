@@ -11,11 +11,12 @@ public class Precomputation
     public AbstractTuple OverPoint { get; }
     public AbstractTuple EyeV { get; }
     public AbstractTuple NormalV { get; }
+    public AbstractTuple ReflectV { get; }
     public bool Inside { get; }
 
     public Precomputation(double time, IShape item, AbstractTuple point, AbstractTuple overPoint, AbstractTuple eyev,
-        AbstractTuple normalV, bool inside)
+        AbstractTuple normalV, bool inside, AbstractTuple reflectV)
     {
-        (Time, Object, Point, OverPoint, EyeV, NormalV, Inside) = (time, item, point, overPoint, eyev, normalV, inside);
+        (Time, Object, Point, OverPoint, EyeV, NormalV, Inside, ReflectV) = (time, item, point, overPoint, eyev, normalV, inside, reflectV);
     }
 }

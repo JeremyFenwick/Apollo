@@ -95,8 +95,9 @@ public class Ray
         }
 
         var overPoint = point + normalV * Epsilon;
-
-        return new Precomputation(intersect.Time, intersect.Object, point, overPoint, eyeV, normalV, inside);
+        var reflectV = this.Direction.Reflect(normalV);
+        
+        return new Precomputation(intersect.Time, intersect.Object, point, overPoint, eyeV, normalV, inside, reflectV);
     }
 
     public AbstractColour ColourAt(World world)
