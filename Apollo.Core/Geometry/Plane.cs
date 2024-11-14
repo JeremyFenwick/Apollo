@@ -10,7 +10,7 @@ public class Plane : IShape
 {
     public Material Material { get; set; }
     public Matrix Transform { get; set; }
-    private const double Epsilon = 0.00001;
+    private const double Epsilon = 0.0000001;
     
     public Plane()
     {
@@ -28,7 +28,7 @@ public class Plane : IShape
         var tOrigin = ray.Origin * Transform.Inverse();
         var tDirection = ray.Direction * Transform.Inverse();
         
-        if (System.Math.Abs(ray.Direction.Y) < Epsilon)
+        if (System.Math.Abs(tDirection.Y) < Epsilon)
         {
             return new Intersections();
         }

@@ -100,8 +100,12 @@ public class Ray
         return new Precomputation(intersect.Time, intersect.Object, point, overPoint, eyeV, normalV, inside, reflectV);
     }
 
-    public AbstractColour ColourAt(World world)
+    public AbstractColour ColourAt(World world, int remaining = 5)
     {
+        if (remaining <= 0)
+        {
+            return new Black();
+        }
         var intersections = this.WorldIntersect(world);
         var hit = Hit(intersections);
         if (hit == null)
@@ -111,6 +115,8 @@ public class Ray
         var comp = Precompute(hit);
         var shadowed = world.IsShadowed(comp.OverPoint);
         var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.OverPoint, comp.EyeV, comp.NormalV, shadowed, hit.Object);
-        return shadeHit;
+        var reflected = world.ReflectedColour(comp, remaining - 1);
+        
+        return shadeHit + reflected;
     }
 }

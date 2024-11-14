@@ -1,4 +1,5 @@
 ﻿using Apollo.Display;
+using Apollo.Display.AbstractClasses;
 using Apollo.Display.ColourPresets;
 using Apollo.Geometry.Interfaces;
 using Apollo.Lighting;
@@ -39,5 +40,20 @@ public class World
         var hit = Ray.Hit(intersections);
         
         return hit != null && hit.Time < distance;
+    }
+
+    public AbstractColour ReflectedColour(Precomputation comps, int remaining = 5)
+    {
+        if (remaining <= 0)
+        {
+            return new Black();
+        }
+        if (comps.Object.Material.Reflectivity == 0)
+        {
+            return new Black();
+        };
+        var reflectRay = new Ray(comps.OverPoint, comps.ReflectV);
+        var colour = reflectRay.ColourAt(this, remaining - 1);
+        return colour * comps.Object.Material.Reflectivity;
     }
 }
