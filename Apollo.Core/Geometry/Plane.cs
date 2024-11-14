@@ -20,7 +20,10 @@ public class Plane : IShape
     
     public AbstractTuple NormalAt(Point p)
     {
-        return new Vector(0, 1, 0);
+        var objectNormal = new Vector(0, 1, 0);
+        var worldNormal = (this.Transform.Inverse().Transpose()) * objectNormal;
+        var vector = new Vector(worldNormal).Normalize();
+        return vector;    
     }
 
     public Intersections Intersect(Ray ray)
