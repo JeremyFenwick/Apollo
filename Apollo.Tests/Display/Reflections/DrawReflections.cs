@@ -45,7 +45,7 @@ public class DrawReflections
         middle.Material.Colour = new Colour(1, 0, 0);
         middle.Material.Diffuse = 0.7f;
         middle.Material.Specular = 0.7f;
-        middle.Material.Reflectivity = 0.05;
+        middle.Material.Reflectivity = 0.09;
         // Setup world
         var spheres = new List<IShape>() { floor, leftWall, rightWall, middle };
         var light = new PointLight(new Point(-10, 10, -10), new White());
