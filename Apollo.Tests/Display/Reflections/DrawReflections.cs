@@ -13,28 +13,27 @@ public class DrawReflections
     [Test]
     public void DrawReflectionsTest()
     {
-        // Sphere one (floor)
+        // Plane one (floor)
         var floor = new Plane();
         floor.Material = new Material();
         floor.Material.Colour = new Colour(0f, 0.2f, 0.4f);
         floor.Material.Pattern = new Checker(new Black(), new White());
         floor.Material.Pattern.Transform = Matrix.Scaling(0.5, 0.5, 0.5);
         floor.Material.Specular = 0;
-        // // Sphere two (left wall)
+        floor.Material.Reflectivity = 0.2;
+        // // Plane two (left wall)
         var leftWall = new Plane();
         leftWall.Transform = Matrix.Translation(0, 0, 5) * 
                              Matrix.YRotation(-System.Math.PI / 4) * 
                              Matrix.XRotation(System.Math.PI / 2);
-        leftWall.Material = floor.Material;
         leftWall.Material.Pattern = new Checker(new Black(), new White());
         leftWall.Material.Pattern.Transform = Matrix.Scaling(0.5, 0.5, 0.5);
         leftWall.Material.Specular = 0;
-        // Sphere three (right wall)
+        // Plane three (right wall)
         var rightWall = new Plane();
         rightWall.Transform = Matrix.Translation(0, 0, 5) * 
                              Matrix.YRotation(System.Math.PI / 4) * 
                              Matrix.XRotation(System.Math.PI / 2);
-        rightWall.Material = floor.Material;
         rightWall.Material.Pattern = new Checker(new Black(), new White());
         rightWall.Material.Pattern.Transform = Matrix.Scaling(0.5, 0.5, 0.5);
         rightWall.Material.Specular = 0;

@@ -157,11 +157,20 @@ public class Ray
         {
             return new Black();
         }
-        var comp = Precompute(hit, new Intersections(hit));
+        var comp = Precompute(hit, intersections);
         var shadowed = world.IsShadowed(comp.OverPoint);
+        
         var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.OverPoint, comp.EyeV, comp.NormalV, shadowed, hit.Object);
         var reflected = world.ReflectedColour(comp, remaining - 1);
+        var refracted = world.RefractedColour(comp, remaining - 1);
+
+        if (comp.Object.Material.Reflectivity > 0 && comp.Object.Material.Transparency > 0)
+        {
+            var reflectance = Shading.Shclick(comp);
+            return shadeHit + reflected * reflectance + refracted * (1 - reflectance);
+        }
+
+        return shadeHit + reflected + refracted;
         
-        return shadeHit + reflected;
     }
 }

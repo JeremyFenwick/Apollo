@@ -48,5 +48,7 @@ public class Material
         Specular = 0.9;
         Shininess = 200;
         Reflectivity = 0;
+        Transparency = 0;
+        RefractiveIndex = 1;
     }
 }

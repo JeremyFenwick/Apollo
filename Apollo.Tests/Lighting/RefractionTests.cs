@@ -1,4 +1,8 @@
-﻿using Apollo.Geometry;
+﻿using System.Data.SqlTypes;
+using Apollo.Display;
+using Apollo.Display.ColourPresets;
+using Apollo.Geometry;
+using Apollo.Geometry.Patterns;
 using Apollo.Lighting;
 using Apollo.Math;
 
@@ -84,5 +88,154 @@ public class RefractionTests
         var comps = ray.Precompute(i);
         Assert.That(comps.UnderPoint.Z > 0.00001 /2);
         Assert.That(comps.Point.Z < comps.UnderPoint.Z);
+    }
+
+    [Test]
+    public void RefractedColour()
+    {
+        var world = World.Default();
+        var shape = world.Contents[0];
+        var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
+        var xs = new Intersections(new Intersect(shape, 4), new Intersect(shape, 6));
+        var comps = ray.Precompute(xs.Intersects[0], xs);
+        var colour = world.RefractedColour(comps);
+        Assert.That(colour == new Black());
+    }
+
+    [Test]
+    public void InfiniteRecursion()
+    {
+        var world = World.Default();
+        var shape = world.Contents[0];
+        shape.Material.Transparency = 1.0;
+        shape.Material.RefractiveIndex = 1.5;
+        var ray = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
+        var xs = new Intersections(new Intersect(shape, 4), new Intersect(shape, 6));
+        var comps = ray.Precompute(xs.Intersects[0], xs);
+        var colour = world.RefractedColour(comps, 0);
+        Assert.That(colour == new Black());
+    }
+
+    [Test]
+    public void InternalRefraction()
+    {
+        var world = World.Default();
+        var shape = world.Contents[0];
+        shape.Material.Transparency = 1.0;
+        shape.Material.RefractiveIndex = 1.5;
+        var elem = System.Math.Sqrt(2) / 2;
+        var ray = new Ray(new Point(0, 0, elem), new Vector(0, 1, 0));
+        var xs = new Intersections(new Intersect(shape, - elem), new Intersect(shape, elem));
+        var comps = ray.Precompute(xs.Intersects[1], xs);
+        var colour = world.RefractedColour(comps, 5);
+        Assert.That(colour == new Black());
+    }
+    
+    [Test]
+    public void RefractionColour()
+    {
+        var world = World.Default();
+        var shape = world.Contents[0];
+        shape.Material.Ambient = 1.0;
+        shape.Material.Pattern = new TestPattern();
+        
+        var shape2 = world.Contents[1];
+        shape2.Material.Transparency = 1.0;
+        shape2.Material.RefractiveIndex = 1.5;
+        
+        var ray = new Ray(new Point(0, 0, 0.1), new Vector(0, 1, 0));
+        var xs = new Intersections();
+        xs.Intersects.Add(new Intersect(shape, -0.9899));
+        xs.Intersects.Add(new Intersect(shape2, -0.4899));
+        xs.Intersects.Add(new Intersect(shape2, 0.4899));
+        xs.Intersects.Add(new Intersect(shape, 0.9899));
+
+        var comps = ray.Precompute(xs.Intersects[2], xs);
+        var colour = world.RefractedColour(comps, 5);
+        
+        Assert.That(colour == new Colour(0, 0.99888, 0.04725));
+    }
+    
+    [Test]
+    public void RefractionColour2()
+    {
+        var world = World.Default();
+        var floor = new Plane();
+        floor.Material.Transparency = 0.5;
+        floor.Material.RefractiveIndex = 1.5;
+        floor.Transform = Matrix.Translation(0, -1, 0);
+        world.AddShape(floor);
+        
+        var ball = new Sphere();
+        ball.Material.Colour = new Red();
+        ball.Material.Ambient = 0.5;
+        ball.Transform = Matrix.Translation(0, -3.5, -0.5);
+        world.AddShape(ball);
+        
+        var elem = System.Math.Sqrt(2) / 2;
+        var ray = new Ray(new Point(0, 0, -3), new Vector(0, -elem, elem));
+
+        var colour = ray.ColourAt(world);
+        
+        Assert.That(colour == new Colour(0.93642, 0.68642, 0.68642));
+    }
+
+    [Test]
+    public void FresnelEffect()
+    {
+        var sphere = Sphere.Glass();
+        var elem = System.Math.Sqrt(2) / 2;
+
+        var ray = new Ray(new Point(0, 0, elem), new Vector(0, 1, 0)); 
+        var xs = new Intersections(new Intersect(sphere, -elem), new Intersect(sphere, elem));
+        var comps = ray.Precompute(xs.Intersects[1], xs);
+        var reflectance = Shading.Shclick(comps);
+        Assert.That(System.Math.Abs(reflectance - 1) < 0.00001);
+    }
+    
+    [Test]
+    public void FresnelEffect2()
+    {
+        var sphere = Sphere.Glass();
+        var ray = new Ray(new Point(0, 0, 0), new Vector(0, 1, 0)); 
+        var xs = new Intersections(new Intersect(sphere, -1), new Intersect(sphere, 1));
+        var comps = ray.Precompute(xs.Intersects[1], xs);
+        var reflectance = Shading.Shclick(comps);
+        Assert.That(System.Math.Abs(reflectance - 0.04) < 0.00001);
+    }
+    
+    [Test]
+    public void FresnelEffect3()
+    {
+        var sphere = Sphere.Glass();
+        var ray = new Ray(new Point(0, 0.99, -2), new Vector(0, 0, 1));
+        var xs = new Intersections(new Intersect(sphere, 1.8589));
+        var comps = ray.Precompute(xs.Intersects[0], xs);
+        var reflectance = Shading.Shclick(comps);
+        Assert.That(System.Math.Abs(reflectance - 0.48873) < 0.00001);
+    }
+    
+    [Test]
+    public void FresnelEffect4()
+    {
+        var world = World.Default();
+        var elem = System.Math.Sqrt(2) / 2;
+        var ray = new Ray(new Point(0, 0, -3), new Vector(0, -elem, elem)); 
+        
+        var floor = new Plane();
+        floor.Material.Transparency = 0.5;
+        floor.Material.RefractiveIndex = 1.5;
+        floor.Material.Reflectivity = 0.5;
+        floor.Transform = Matrix.Translation(0, -1, 0);
+        world.AddShape(floor);
+        
+        var ball = new Sphere();
+        ball.Material.Colour = new Red();
+        ball.Material.Ambient = 0.5;
+        ball.Transform = Matrix.Translation(0, -3.5, -0.5);
+        world.AddShape(ball);
+
+        var color = ray.ColourAt(world);
+        Assert.That(color == new Colour(0.93391, 0.69643, 0.69243));
     }
 }

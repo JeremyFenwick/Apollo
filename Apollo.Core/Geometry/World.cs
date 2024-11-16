@@ -29,6 +29,11 @@ public class World
         return new World(new List<IShape>() { s1, s2 }, light);
     }
 
+    public void AddShape(IShape shape)
+    {
+        Contents.Add(shape);
+    }
+
     public bool IsShadowed(AbstractTuple point)
     {
         var v = LightSource.Position - point;
@@ -59,10 +64,26 @@ public class World
 
     public AbstractColour RefractedColour(Precomputation comps, int remaining = 5)
     {
+        if (remaining <= 0)
+        {
+            return new Black();
+        }
         if (comps.Object.Material.Transparency == 0)
         {
             return new Black();
         }
-        return new White();
+        // Check for internal reflection
+        var nRatio = comps.N1 / comps.N2;
+        var cosI = comps.EyeV.Dot(comps.NormalV);
+        var sin2T = (nRatio * nRatio) * (1 - (cosI * cosI));
+        if (sin2T > 1)
+        {
+            return new Black();
+        }
+
+        var cosT = System.Math.Sqrt(1 - sin2T);
+        var direction = comps.NormalV * (nRatio * cosI - cosT) - comps.EyeV * nRatio;
+        var refractRay = new Ray(comps.UnderPoint, direction);
+        return refractRay.ColourAt(this, remaining - 1) * comps.Object.Material.Transparency;
     }
 }

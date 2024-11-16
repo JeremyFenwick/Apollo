@@ -49,4 +49,22 @@ public static class Shading
         }
         return ambient + diffuse + specular;
     }
+
+    public static double Shclick(Precomputation comps)
+    {
+        var cos = comps.EyeV.Dot(comps.NormalV);
+
+        if (comps.N1 > comps.N2)
+        {
+            var ratio = comps.N1 / comps.N2;
+            var sin2T = (ratio * ratio) * (1.0 - (cos * cos));
+            if (sin2T > 1)
+            {
+                return 1;
+            }
+            cos = System.Math.Sqrt(1 - sin2T);
+        }
+        var r0 = System.Math.Pow((comps.N1 - comps.N2) / (comps.N1 + comps.N2), 2);
+        return r0 + (1 - r0) * System.Math.Pow((1 - cos), 5);
+    }
 }
