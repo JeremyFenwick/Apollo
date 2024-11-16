@@ -84,7 +84,12 @@ public class Ray
 
     public Precomputation Precompute(Intersect intersect, Intersections intersections = null)
     {
-        intersections ??= new Intersections(intersect);
+        if (intersections == null)
+        {
+            intersections = new Intersections(intersect);
+        }
+        intersections.Intersects.Sort();
+        
         double n1 = 1.0;
         double n2 = 1.0;
         var containers = new List<IShape>();
@@ -138,8 +143,8 @@ public class Ray
             inside = true;
         }
 
-        var overPoint = point + normalV * Epsilon;
-        var underPoint = point - normalV * Epsilon;
+        var overPoint = point + (normalV * Epsilon);
+        var underPoint = point - (normalV * Epsilon);
         var reflectV = this.Direction.Reflect(normalV);
         
         return new Precomputation(intersect.Time, intersect.Object, point, overPoint, underPoint, eyeV, normalV, inside, reflectV, n1, n2);
@@ -160,14 +165,14 @@ public class Ray
         var comp = Precompute(hit, intersections);
         var shadowed = world.IsShadowed(comp.OverPoint);
         
-        var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.OverPoint, comp.EyeV, comp.NormalV, shadowed, hit.Object);
-        var reflected = world.ReflectedColour(comp, remaining - 1);
-        var refracted = world.RefractedColour(comp, remaining - 1);
+        var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.OverPoint, comp.EyeV, comp.NormalV, shadowed, comp.Object);
+        var reflected = world.ReflectedColour(comp, remaining);
+        var refracted = world.RefractedColour(comp, remaining);
 
-        if (comp.Object.Material.Reflectivity > 0 && comp.Object.Material.Transparency > 0)
+        if (comp.Object.Material is { Reflectivity: > 0, Transparency: > 0 })
         {
             var reflectance = Shading.Shclick(comp);
-            return shadeHit + reflected * reflectance + refracted * (1 - reflectance);
+            return shadeHit + (reflected * reflectance) + (refracted * (1 - reflectance));
         }
 
         return shadeHit + reflected + refracted;

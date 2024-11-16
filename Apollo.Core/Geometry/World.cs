@@ -82,7 +82,7 @@ public class World
         }
 
         var cosT = System.Math.Sqrt(1 - sin2T);
-        var direction = comps.NormalV * (nRatio * cosI - cosT) - comps.EyeV * nRatio;
+        var direction = (comps.NormalV * ((nRatio * cosI) - cosT)) - (comps.EyeV * nRatio);
         var refractRay = new Ray(comps.UnderPoint, direction);
         return refractRay.ColourAt(this, remaining - 1) * comps.Object.Material.Transparency;
     }

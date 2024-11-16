@@ -28,5 +28,9 @@ An experimental Ray Tracer built on the .NET platform.
 
 ![Shaders](./Outputs/Reflections/Reflection.jpg)
 
+### Refractions
+
+![Shaders](./Outputs/Refractions/Transparency.jpg)
+
 
 
