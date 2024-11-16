@@ -12,11 +12,20 @@ public class Material
     public double Specular { get; set; }
     public double Shininess { get; set; }
     public double Reflectivity { get; set; }
+    public double Transparency { get; set; }
+    public double RefractiveIndex { get; set; }
     public IPattern? Pattern { get; set; }
 
-    public Material(AbstractColour colour, double ambient, double diffuse, double specular, double shininess, double reflectivity)
+    public Material(AbstractColour colour, double ambient, double diffuse, double specular, double shininess, double reflectivity, double transparency, double refractiveIndex)
     {
-        (Colour, Ambient, Diffuse, Specular, Shininess, Reflectivity) = (colour, ambient, diffuse, specular, shininess, reflectivity);
+        Colour = colour;
+        Ambient = ambient;
+        Diffuse = diffuse;
+        Specular = specular;
+        Shininess = shininess;
+        Reflectivity = reflectivity;
+        Transparency = transparency;
+        RefractiveIndex = refractiveIndex;
     }
 
     public Material(AbstractColour colour)
@@ -27,6 +36,8 @@ public class Material
         Specular = 0.9;
         Shininess = 200;
         Reflectivity = 0;
+        Transparency = 0;
+        RefractiveIndex = 1;
     }
 
     public Material()

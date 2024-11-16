@@ -1,4 +1,5 @@
-﻿using Apollo.Display.AbstractClasses;
+﻿using System.ComponentModel;
+using Apollo.Display.AbstractClasses;
 using Apollo.Display.ColourPresets;
 using Apollo.Geometry;
 using Apollo.Geometry.Interfaces;
@@ -80,9 +81,52 @@ public class Ray
         var sMatrix = Matrix.Shear(xy, xz, yx, yz, zx, zy);
         return new Ray(Origin * sMatrix,Direction * sMatrix);
     }
-    
-    public Precomputation Precompute(Intersect intersect)
+
+    public Precomputation Precompute(Intersect intersect, Intersections intersections = null)
     {
+        intersections ??= new Intersections(intersect);
+        double n1 = 1.0;
+        double n2 = 1.0;
+        var containers = new List<IShape>();
+        // var hit = Hit(intersections);
+        foreach (var item in intersections.Intersects)
+        {
+            // Set n1
+            if (item == intersect)
+            {
+                if (containers.Count == 0)
+                {
+                    n1 = 1.0;
+                }
+                else
+                {
+                    n1 = containers.Last().Material.RefractiveIndex;
+                }
+            }
+
+            if (containers.Contains(item.Object))
+            {
+                containers.Remove(item.Object);
+            }
+            else
+            {
+                containers.Add(item.Object);
+            }
+
+            if (item == intersect)
+            {
+                if (containers.Count == 0)
+                {
+                    n2 = 1.0;
+                }
+                else
+                {
+                    n2 = containers.Last().Material.RefractiveIndex;
+                }
+                break;
+            }
+        }
+        
         var point = Position(intersect.Time);
         var eyeV = -Direction;
         var normalV = intersect.Object.NormalAt(point);
@@ -95,9 +139,10 @@ public class Ray
         }
 
         var overPoint = point + normalV * Epsilon;
+        var underPoint = point - normalV * Epsilon;
         var reflectV = this.Direction.Reflect(normalV);
         
-        return new Precomputation(intersect.Time, intersect.Object, point, overPoint, eyeV, normalV, inside, reflectV);
+        return new Precomputation(intersect.Time, intersect.Object, point, overPoint, underPoint, eyeV, normalV, inside, reflectV, n1, n2);
     }
 
     public AbstractColour ColourAt(World world, int remaining = 5)
@@ -112,7 +157,7 @@ public class Ray
         {
             return new Black();
         }
-        var comp = Precompute(hit);
+        var comp = Precompute(hit, new Intersections(hit));
         var shadowed = world.IsShadowed(comp.OverPoint);
         var shadeHit = Shading.Lighting(comp.Object.Material, world.LightSource, comp.OverPoint, comp.EyeV, comp.NormalV, shadowed, hit.Object);
         var reflected = world.ReflectedColour(comp, remaining - 1);

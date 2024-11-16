@@ -59,4 +59,12 @@ public class Sphere : IShape
         var patternPoint = Material.Pattern.Transform.Inverse() * objectPoint;
         return Material.Pattern.ColourAt(patternPoint);
     }
+
+    public static Sphere Glass()
+    {
+        var sphere = new Sphere();
+        sphere.Material.Transparency = 1.0;
+        sphere.Material.RefractiveIndex = 1.5;
+        return sphere;
+    }
 }
